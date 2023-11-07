@@ -15,16 +15,6 @@ void initialize_custom_environ(shell_type *shell_info)
 	shell_info->_env = node;
 	return (0);
 }
-void free_custom_environ()
-{
-	int i = 0;
-	while (custom_environ[i] != NULL)
-	{
-		free(custom_environ[i]);
-		i++;
-	}
-	free(custom_environ);
-}
 int _setenv(const char *name, const char *value, int overwrite)
 {
 	char *existing_value;

@@ -107,10 +107,10 @@ int delete_nodeint_at_index(env_t **head, unsigned int index)
 	return (-1);
 }
 /**
- * free_listint2 - frees a listint_t list.
+ * free_env - frees a env_t list.
  * @head: pointer to the head node
  */
-void free_listint2(env_t **head)
+void free_env(env_t **head)
 {
 	env_t *p;
 
