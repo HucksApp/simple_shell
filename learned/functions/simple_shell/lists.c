@@ -1,12 +1,12 @@
 #include "shell.h"
 
 /**
- * add_nodeint - add a new node at the beggining of the list
+ * add_node - add a new node at the beggining of the list
  * @head: pointer to the beginning of the list
  * @str: the string to initialize
  * Return: address of newnode
  */
-env_t *add_nodeint(env_t **head, const char *str)
+env_t *add_node(env_t **head, const char *str)
 {
 	env_t *newnode;
 
@@ -30,12 +30,12 @@ env_t *add_nodeint(env_t **head, const char *str)
 }
 
 /**
- * add_nodeint_end -  adds a new node at the end of a env_t list.
+ * add_node_end -  adds a new node at the end of a env_t list.
  * @head: pointer to the head of the list
  * @str: string to initialize
  * Return: address of new node
  */
-env_t *add_nodeint_end(env_t **head, const char *str)
+env_t *add_node_end(env_t **head, const char *str)
 {
 	env_t *newnode;
 	env_t *p = *head;
@@ -67,13 +67,13 @@ env_t *add_nodeint_end(env_t **head, const char *str)
 	return (newnode);
 }
 /**
- * delete_nodeint_at_index - deletes the node at index @index of
+ * delete_node_at_index - deletes the node at index @index of
  * a env_t linked list
  * @head: the pointer to the header node of the list
  * @index: the index with which to delete the element of
  * Return: 1(Success) else -1
  */
-int delete_nodeint_at_index(env_t **head, unsigned int index)
+int delete_node_at_index(env_t **head, unsigned int index)
 {
 	unsigned int i = 0;
 	env_t *p;
@@ -125,4 +125,44 @@ void free_env(env_t **head)
 		free(p);
 	}
 	*head = NULL;
+}
+/**
+ * insert_node_at_index - inserts a new node at a given position.
+ * @head: address of header node
+ * @idx: index at which we want to enter our elemnt into
+ * @str: the value of the element to insert
+ * Return: address of the newnode
+ */
+env_t *insert_node_at_index(env_t **head, unsigned int idx, char *str)
+{
+	env_t *p;
+	env_t *newnode;
+	unsigned int i = 0;
+
+	if (!head || (*head == NULL && idx != 0))
+		return (NULL);
+	newnode = malloc(sizeof(env_t));
+	if (newnode == NULL)
+		return (NULL);
+	newnode->str = strdup(str);
+	if (idx == 0)
+	{
+		newnode->next = *head;
+		*head = newnode;
+		return (newnode);
+	}
+	p = *head;
+
+	for (i = 0; (p != NULL) && (i < (idx - 1)) && (idx > 0); i++)
+		p = p->next;
+	if (p == NULL)
+	{
+		free(newnode);
+		return (NULL);
+	}
+
+	newnode->next = p->next;
+	p->next = newnode;
+
+	return (newnode);
 }
