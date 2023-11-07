@@ -7,12 +7,12 @@ static char **custom_environ = NULL;
 
 void initialize_custom_environ(shell_type *shell_info)
 {
-	env_t *head = NULL;
+	env_t *node = NULL;
 	size_t i;
 
 	for (i = 0; environ[i]; i++)
-		add_node_end(&head, environ[i], 0);
-	shell_info->_env = head;
+		add_node_end(&node, environ[i], 0);
+	shell_info->_env = node;
 	return (0);
 }
 void free_custom_environ()
