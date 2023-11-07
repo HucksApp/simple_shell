@@ -1,34 +1,19 @@
 #include <stdlib.h>
 #include <string.h>
+#include "shell.h"
 
 extern char **environ;
 static char **custom_environ = NULL;
 
-void initialize_custom_environ()
+void initialize_custom_environ(shell_type *shell_info)
 {
-	int i = 0;
+	env_t *head = NULL;
+	size_t i;
 
-	/* Count the number of environment variables */
-	while (environ[i] != NULL)
-	{
-		i++;
-	}
-
-	/* Allocate memory for custom_environ */
-	custom_environ = malloc((i + 1) * sizeof(char *));
-	if (custom_environ == NULL)
-		exit(EXIT_FAILURE);
-
-	/* Duplicate and store environment variables in custom_environ */
-	for (int j = 0; j < i; ++j)
-	{
-		custom_environ[j] = strdup(environ[j]);
-		if (custom_environ[j] == NULL)
-			exit(EXIT_FAILURE);
-	}
-
-	/* Null-terminate the custom_environ array */
-	custom_environ[i] = NULL;
+	for (i = 0; environ[i]; i++)
+		add_node_end(&head, environ[i], 0);
+	shell_info->_env = head;
+	return (0);
 }
 void free_custom_environ()
 {
