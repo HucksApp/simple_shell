@@ -18,15 +18,15 @@ typedef struct shell_class
 } shell_type;
 
 size_t print_env(const env_t *h);
-char *_getenv(const char *name);
-int _getenv_index(const char *name);
+char *_getenv(const char *name, shell_type *shell_info);
+int _getenv_index(const char *name, shell_type *shell_info);
 void initialize_custom_environ(shell_type *shell_info);
 
 void free_env(env_t **head);
 int delete_node_at_index(env_t **head, unsigned int index);
 env_t *add_node_end(env_t **head, const char *str);
 env_t *add_node(env_t **head, const char *str);
-int _setenv(shell_type *shell_info, const char *name,
-			const char *value, int overwrite);
+int _setenv(const char *name,
+			const char *value, int overwrite, shell_type *shell_info);
 
 #endif

@@ -76,29 +76,29 @@ env_t *add_node_end(env_t **head, const char *str)
 int delete_node_at_index(env_t **head, unsigned int index)
 {
 	unsigned int i = 0;
-	env_t *p;
+	env_t *current;
 	env_t *temp;
 
 	if (!head || *head == NULL)
 		return (-1);
-	p = *head;
+	current = *head;
 	if (index == 0)
 	{
-		*head = p->next;
-		free(p->str);
-		free(p);
+		*head = current->next;
+		free(current->str);
+		free(current);
 		return (1);
 	}
-	for (i = 0; p != NULL && i < (index - 1); i++)
-		p = p->next;
-	if (p == NULL)
+	for (i = 0; current != NULL && i < (index - 1); i++)
+		current = current->next;
+	if (current == NULL)
 		return (-1);
 	if (index > 0)
 	{
-		temp = p->next;
+		temp = current->next;
 		if (temp == NULL)
 			return (-1);
-		p->next = temp->next;
+		current->next = temp->next;
 		free(temp->str);
 		free(temp);
 		return (1);

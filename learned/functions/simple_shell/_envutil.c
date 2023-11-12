@@ -4,23 +4,23 @@
 #include "shell.h"
 extern char **environ;
 
-char *_getenv(const char *name)
+char *_getenv(const char *name, shell_type *shell_info)
 {
 	const char *delim = "=";
 	char *res = NULL;
 	char *current_var = NULL;
-	char **env = environ;
+	env_t *env = shell_info->env;
 	char *token;
 
 	if (name == NULL)
 		return (NULL);
 	/*go through all the env variables*/
-	while (*env != NULL)
+	while (env != NULL)
 	{
 		/*store current variable in current_var*/
 		if (current_var != NULL)
 			free(current_var);
-		current_var = strdup(*env);
+		current_var = strdup(env->str);
 		token = strtok(current_var, delim);
 		/*tokenize and get the second part of the variable after "=" */
 		if (token != NULL && strcmp(token, name) == 0)
@@ -29,40 +29,56 @@ char *_getenv(const char *name)
 			break;
 		}
 
-		env++;
+		env = env->next;
 	}
 	if (current_var != NULL)
 		free(current_var);
 	return (res);
 }
-int _getenv_index(const char *name)
+env_t *duplicate_env_list(const env_t *head)
 {
-	const char *delim = "=";
-	char *current_var = NULL;
-	char **env = environ;
+	env_t *new_head = NULL;
+	const env_t *current_node = head;
+
+	if (head == NULL)
+		return (NULL);
+
+	while (current_node != NULL)
+	{
+		add_node_end(&new_head, current_node->str);
+		current_node = current_node->next;
+	}
+
+	return (new_head);
+}
+int _getenv_index(const char *name, shell_type *shell_info)
+{
+	env_t *env = duplicate_env_list(shell_info->env);
 	char *token;
 	size_t i = 0;
+	int index = -1;
 
 	if (name == NULL)
-		return (-1);
-	/*go through all the env variables*/
-	while (*env != NULL)
 	{
-		/*store current variable in current_var*/
-		if (current_var != NULL)
-			free(current_var);
-		current_var = strdup(*env);
-		token = strtok(current_var, delim);
+		free_env(&env);
+		return (-1);
+	}
+	/*go through all the env variables*/
+	while (env != NULL)
+	{
+		token = strtok(env->str, "=");
 		/*tokenize and get the second part of the variable after "=" */
 		if (token != NULL && strcmp(token, name) == 0)
+		{
+			index = i;
 			break;
+		}
 
-		env++;
+		env = env->next;
 		i++;
 	}
-	if (current_var != NULL)
-		free(current_var);
-	return (i);
+	free_env(&env);
+	return (index);
 }
 /**
  * print_env - prints all the elements of a environment list.
@@ -90,17 +106,17 @@ void initialize_custom_environ(shell_type *shell_info)
 		add_node_end(&node, environ[i]);
 	shell_info->env = node;
 }
-int _setenv(shell_type *shell_info, const char *name,
-			const char *value, int overwrite)
+int _setenv(const char *name,
+			const char *value, int overwrite, shell_type *shell_info)
 {
 	/*implement shelltype use, allong with getenv*/
-	int index = _getenv_index(name);
-	env_t *node = NULL;
+	int index = _getenv_index(name, shell_info);
+	env_t *node = shell_info->env;
 	char *env_var;
 
 	size_t env_var_len = strlen(name) + strlen(value) + 2;
 
-	env_var = malloc(env_var_len * sizeof(char *));
+	env_var = malloc(env_var_len);
 	if (env_var == NULL)
 	{
 		fprintf(stderr, "Memory allocation failed\n");
@@ -111,7 +127,7 @@ int _setenv(shell_type *shell_info, const char *name,
 	strcat(env_var, "=");
 	strcat(env_var, value);
 
-	if (getenv(name) == NULL)
+	if (index == -1)
 	{
 		add_node_end(&node, env_var);
 	}
@@ -131,6 +147,13 @@ int _setenv(shell_type *shell_info, const char *name,
 	free(env_var);
 	return (1);
 }
+int _unsetenv(const char *name, shell_type *shell_info)
+{
+	unsigned int index = _getenv_index(name, shell_info);
+
+	delete_node_at_index(&shell_info->env, index);
+	return (index);
+}
 
 int main(void)
 {
@@ -139,7 +162,7 @@ int main(void)
 	char *value;
 
 	initialize_custom_environ(&shell_info);
-	value = _getenv(env_name);
+	value = _getenv(env_name, &shell_info);
 
 	if (value != NULL)
 	{
@@ -152,9 +175,9 @@ int main(void)
 	}
 
 	printf("\nAll environment variables:\n");
-	print_env(shell_info.env);
 
-	_setenv("SHELL_GOD", "THIS IS NOT MY FIRST ATTEMPT", 0);
+	print_env(shell_info.env);
+	_unsetenv("SHELL", &shell_info);
 	print_env(shell_info.env);
 
 	free_env(&shell_info.env);

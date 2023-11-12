@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
 
 int main(void)
 {
@@ -14,7 +15,7 @@ int main(void)
 		if (charead != -1)
 		{
 			inputbuffer[charead - 1] = '\0';
-			printf("%s\n", inputbuffer);
+			/*printf("%s\n", inputbuffer);*/
 		}
 		if (charead == -1)
 		{

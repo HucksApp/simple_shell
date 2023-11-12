@@ -4,20 +4,47 @@
 #include <sys/wait.h>
 #include <string.h>
 #include <stdlib.h>
+#include <sys/stat.h>
 
+extern char **environ;
 void readinput(void);
 
 void showrez(char *argv[])
 {
 	pid_t child;
 	int status;
+	char *path = getenv("PATH");
+	char *path_copy;
+	char *dir;
+	char full_path[256];
 
-	child = fork();
-	if (child == 0)
+	if (!path)
 	{
-		execve(argv[0], argv, NULL);
+		perror("getenv");
+		exit(EXIT_FAILURE);
 	}
-	wait(&status);
+	path_copy = strdup(path);
+	dir = strtok(path_copy, ":");
+
+	while (dir != NULL)
+	{
+		snprintf(full_path, sizeof(full_path), "%s/%s", dir, argv[0]);
+		if (access(full_path, F_OK) == 0)
+		{
+			child = fork();
+			if (child == 0)
+			{
+				execve(full_path, argv, environ);
+			}
+			wait(&status);
+			free(path_copy);
+			readinput();
+			return;
+		}
+		dir = strtok(NULL, ":");
+	}
+	printf("./shell: No such file or directory\n");
+	free(path_copy);
 	readinput();
 }
 void readinput(void)
@@ -44,7 +71,7 @@ void readinput(void)
 			while (str != NULL)
 			{
 				argv[i++] = str;
-				printf("%s\n", str);
+				/*printf("%s\n", str);*/
 				str = strtok(NULL, " ");
 			}
 			while (argv[i] != NULL)
