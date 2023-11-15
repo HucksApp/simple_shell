@@ -38,12 +38,12 @@ int _start_process(shell_type *obj, UNUSED char **av)
 		{
 			
 			
-			set_info(obj, av);
+			_set_shell_obj(obj, av);
 			builtin_ret = _find_builtin(obj);
 			printf("btn %d", builtin_ret);
 			if (builtin_ret == SYS_ERROR)
 			{
-				find_cmd(obj);
+				_run_cmd(obj);
 				puts("++++++++++++++++++++>");
 				 debugger1(obj->_tokens);
 			}

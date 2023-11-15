@@ -149,7 +149,7 @@ void _run_cmd(shell_type *obj)
     {
         printf("path ..---> %s ", path);
         obj->_path = path;
-        execute(obj);
+        _execute(obj);
     }
     else
     {
@@ -159,7 +159,7 @@ void _run_cmd(shell_type *obj)
         
         if(is_mode)
         {
-            execute(obj);
+            _execute(obj);
         }
         
         else if(*(obj->_input_args) != '\n') 

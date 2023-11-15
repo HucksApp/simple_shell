@@ -110,6 +110,7 @@ int _shell_help(shell_type *obj)
     }
     if(obj->_token_count <= 1 )
     {
+        printf("nnnnnnn");
         errno = E2BIG;
         perror(obj->_tokens[1]);
         return(EXIT_FAILURE);
