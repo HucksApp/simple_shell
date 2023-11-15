@@ -16,10 +16,16 @@ int (*_builtins_cmds_fn(char *cmd))(shell_type *obj)
 			{NULL, NULL}};
 	iter = 0;
 	length = str_len(cmd);
+
 	while (builtins_cmds[iter]._cmd != NULL)
 	{
+		/*
+		 * printf("strcmp %d \n \n  cmd %s \n \n  len %d \n
+		 * \n",_strcmpr(builtins_cmds[iter]._cmd, cmd, length), cmd, length);
+		 */
 		if (_strcmpr(builtins_cmds[iter]._cmd, cmd, length))
 			return (builtins_cmds[iter]._fn);
+		iter++;
 	}
 
 	return (NULL);
@@ -29,7 +35,6 @@ int _find_builtin(shell_type *obj)
 {
 	int (*cmd_fn)(shell_type *);
 	int found_builtin = -1;
-
 	cmd_fn = _builtins_cmds_fn(obj->_tokens[0]);
 	if (cmd_fn != NULL)
 		found_builtin = cmd_fn(obj);

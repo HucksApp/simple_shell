@@ -1,24 +1,19 @@
 #include "shell.h"
 
-int _init_sys_envs(shell_type *obj, char *env[])
+int _init_sys_envs(shell_type *obj)
 {
 	string_list_type *node_head = NULL;
 	size_t index;
 
-	if (env)
-	{
-		for (index = 0; env[index] != NULL; index++)
-			_append_node(&node_head, env[index], 0);
-
-		obj->_envs = node_head;
-		return (_TRUE);
-	}
-	return (_FALSE);
+	for (index = 0; environ[index]; index++)
+		_append_node(&node_head, environ[index], 0);
+	obj->_envs = node_head;
+	return (_TRUE);
 }
 
 int _shell_env(shell_type *obj)
 {
-	_print_node_strlist(obj->_envs);
+	print_str_list(obj->_envs);
 	return (_TRUE);
 }
 
@@ -48,9 +43,17 @@ char *_shell_getenv(shell_type *obj, char *name)
 {
 	string_list_type *node = obj->_envs;
 
-	for (; node != NULL; node = node->next)
+	for (; node; node = node->next)
+	{
+		/**
+		 *  printf("node->_string--> %s\n \n name--> %s\n \n ",
+		 *   node->_string, name);
+		 */
 		if (_match_env(node->_string, name))
-			return (node->_string);
+		{
+			return (((node->_string) + _match_env(node->_string, name) + 1));
+		}
+	}
 
 	return (NULL);
 }

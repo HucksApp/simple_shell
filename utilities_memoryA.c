@@ -10,7 +10,7 @@
 int is_dynamic_mem(char *str)
 {
 	if (str == NULL)
-		return (_FALSE);
+		return _FALSE;
 	/* Check if the string pointer points to the stack */
 	return ((void *)str >= (void *)&str ? (_FALSE) : (_TRUE));
 }
@@ -43,9 +43,9 @@ void _free_array(char **arr)
 {
 	int iter;
 
-	if (arr != NULL)
+	if (arr)
 	{
-		for (iter = 0; arr[iter]; iter++)
+		for (iter = 0; *arr; iter++)
 			/*check to see if its dynamic memory before freeing*/
 			_free(arr[iter]);
 
@@ -57,7 +57,6 @@ void _free_array(char **arr)
 void _free_string_list(char **str_list)
 {
 	int index;
-
 	for (index = 0; str_list[index]; index++)
 		_free(str_list[index]);
 	free(str_list);

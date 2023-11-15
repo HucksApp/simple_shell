@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * to populate the system enviroment variables
+ * _get_envs - to populate the system enviroment variables
  * its Type char ** (string array)
  * its pass as as third argument in main
  * main(int argc, char ** argv, char ** env )
@@ -80,11 +80,19 @@ int _set_env(shell_type *obj, char *var, char *var_value)
 int _match_env(char *envs_path, char *env_new)
 {
 	int is_same;
-	int len_to_compare = str_len(env_new);
+	int len_to_compare = str_len(env_new) - 1;
 	char can_assign = '=';
 
 	is_same = _strcmpr(envs_path, env_new, len_to_compare);
 	if (is_same && envs_path[len_to_compare] == can_assign)
-		return (_TRUE);
+		return (len_to_compare);
 	return (_FALSE);
+}
+
+char *_match_str(char *bulk, char *members)
+{
+	for (; *bulk != '\0'; bulk++, members++)
+		if (*members != *bulk)
+			return (NULL);
+	return ((char *)bulk);
 }

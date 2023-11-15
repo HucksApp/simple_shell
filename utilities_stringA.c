@@ -7,7 +7,7 @@
  * @c: character to search for
  * Return: return int position found or 0
  */
-int _strchr(const char *str, int c)
+int _strchr(int c, const char *str)
 {
 	unsigned int len = 1;
 	while (*str != null && *str != c)
@@ -37,12 +37,54 @@ char *_strchr_ptr(char *str, int c)
 	return ((*str == c) ? str : NULL);
 }
 
+char **_tokenize(char *str, char *d)
+{
+	int i, j, k, m, numwords = 0;
+	char **s;
+
+	if (str == NULL || str[0] == 0)
+		return (NULL);
+	if (!d)
+		d = " ";
+	for (i = 0; str[i] != '\0'; i++)
+		if (!_strchr(str[i], d) && (_strchr(str[i + 1], d) || !str[i + 1]))
+			numwords++;
+
+	if (numwords == 0)
+		return (NULL);
+	s = malloc((1 + numwords) * sizeof(char *));
+	if (!s)
+		return (NULL);
+	for (i = 0, j = 0; j < numwords; j++)
+	{
+		while (_strchr(str[i], d))
+			i++;
+		k = 0;
+		while (!_strchr(str[i + k], d) && str[i + k])
+			k++;
+		s[j] = malloc((k + 1) * sizeof(char));
+		if (!s[j])
+		{
+			for (k = 0; k < j; k++)
+				free(s[k]);
+			free(s);
+			return (NULL);
+		}
+		for (m = 0; m < k; m++)
+			s[j][m] = str[i++];
+		s[j][m] = 0;
+	}
+	s[j] = NULL;
+	return (s);
+}
+
 /**
  * _strtok - divide strings into words
  * @str: string to convert
  * @delimiters:  word seperators array
  * Return: pointer to found position or null
  */
+
 char *_strtok(char *str, char *delimiters)
 {
 	static char *start_token = NULL;
@@ -56,7 +98,7 @@ char *_strtok(char *str, char *delimiters)
 		return NULL;
 
 	/* jump string to the not delimeter character */
-	while (*start_token != null && _strchr(delimiters, *start_token))
+	while (*start_token != null && _strchr(*start_token, delimiters))
 		start_token++;
 	/*if the string has ended return null */
 	if (*start_token == null)
@@ -69,14 +111,14 @@ char *_strtok(char *str, char *delimiters)
 
 	/* add 1 to accept the null terminator (len + 1) */
 
-	len = _strchr(delimiters, *start_token);
+	len = _strchr(*start_token, delimiters);
 	ret = malloc(sizeof(char) * (len + 1));
 	if (!ret)
 		return (NULL);
 
 	iter = 0;
 	/* search for the  end of token  or jumps to next delimter in string */
-	while (*end_token != null && _strchr(delimiters, *end_token) == _FALSE)
+	while (*end_token != null && _strchr(*end_token, delimiters) == _FALSE)
 	{
 		ret[iter] = *end_token;
 		end_token++;

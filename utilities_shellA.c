@@ -1,6 +1,6 @@
 #include "shell.h"
 
-void _destroy_sh_obj(shell_type *obj, int total)
+void _garbage_collection(shell_type *obj, int total)
 {
 	_free_string_list(obj->_tokens);
 	obj->_tokens = NULL;
@@ -18,7 +18,7 @@ void _destroy_sh_obj(shell_type *obj, int total)
 			_free_strlistnode(obj->_history);
 
 		if (obj->_cmd_chain)
-			_free_str_in_str((void **)obj->_cmd_chain);
+			_free_str_in_str(obj->_cmd_chain);
 
 		if (obj->_env)
 		{
@@ -55,7 +55,7 @@ void _create_shell_token(shell_type *obj)
 	}
 }
 
-char **_tokenize(char *str, char *deli)
+char **_tokenize1(char *str, char *deli)
 {
 	int length, list_index;
 	char **token_list;
@@ -101,6 +101,7 @@ void _set_shell_obj(shell_type *obj, char *argv[])
 	/* There is inputs */
 	if (obj->_input_args)
 	{
+
 		obj->_tokens = _tokenize(obj->_input_args, delimeter);
 
 		if (!obj->_tokens)
@@ -116,7 +117,9 @@ void _set_shell_obj(shell_type *obj, char *argv[])
 		for (iter = 0; obj->_tokens && obj->_tokens[iter]; iter++)
 			;
 		obj->_token_count = iter;
+
 		_patch_alias(obj);
+
 		_swap_tokens(obj);
 	}
 }

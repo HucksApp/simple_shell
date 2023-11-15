@@ -9,41 +9,14 @@
 
 char *_strconcat(char dest[], char source[])
 {
-	int dest_len, source_len, iter, length;
-	char *concat_str;
+	char *ret = dest;
 
-	if (dest == NULL)
-		dest = "";
-	if (source == NULL)
-		source = "";
-
-	dest_len = str_len(source);
-	source_len = str_len(dest);
-
-	length = dest_len + source_len + 1;
-	concat_str = malloc(sizeof(char) * length);
-
-	/*check for memory allocation error*/
-	if (concat_str == NULL)
-	{
-		errno = ENOMEM;
-		perror("Error");
-		return (NULL);
-	}
-
-	for (iter = 0; *source != null; source++, iter++)
-		concat_str[iter] = *source;
-
-	for (; *dest != null; dest++, iter++)
-		concat_str[iter] = *dest;
-
-	_free(source);
-	_free(dest);
-
-	concat_str[iter] = null;
-
-	/* heap memmory in use remember to free */
-	return (concat_str);
+	while (*dest)
+		dest++;
+	while (*source)
+		*dest++ = *source++;
+	*dest = *source;
+	return (ret);
 }
 
 /**

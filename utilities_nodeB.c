@@ -40,7 +40,7 @@ char **_node_to_stringlist(string_list_type *head)
 	if (!str_list_len)
 		return (NULL);
 
-	str_list = malloc(sizeof(char) * (str_list_len + 1));
+	str_list = malloc(sizeof(char *) * (str_list_len + 1));
 
 	if (!str_list)
 		return (NULL);
@@ -58,7 +58,7 @@ char **_node_to_stringlist(string_list_type *head)
 	}
 
 	/*terminate the string list*/
-	str[iter] = null;
+	str[iter] = '\0';
 	return (str_list);
 }
 
@@ -67,7 +67,7 @@ string_list_type *_match_node_str(string_list_type *node,
 {
 	char *str = NULL;
 
-	while (node != NULL)
+	while (node)
 	{
 		str = _match_str_path(node->_string, key);
 		if (str && ((c == -1) || (*str == c)))

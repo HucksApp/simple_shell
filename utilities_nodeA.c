@@ -13,11 +13,7 @@ string_list_type *_create_node(void)
 	new_node = malloc(sizeof(string_list_type));
 
 	if (!new_node)
-	{
-		/* if memory is not assigned */
-		free(new_node);
 		return (NULL);
-	}
 	/* init all memory bytes to null */
 	_set_memory((void *)new_node, 0, sizeof(string_list_type));
 	return (new_node);
