@@ -1,13 +1,5 @@
 #include "shell.h"
 
-
-
-
-
-
-
-
-
 /**
  * hsh - main shell loop
  * @info: the parameter & return info struct
@@ -20,9 +12,6 @@ int _start_process(shell_type *obj, UNUSED char **av)
 	ssize_t read_line = 0;
 	int builtin_ret = 0;
 
-
-	
-
 	while (read_line != SYS_ERROR && builtin_ret != EXIT_SIG)
 	{
 		_shell_refresh(obj);
@@ -30,34 +19,30 @@ int _start_process(shell_type *obj, UNUSED char **av)
 		{
 			_write_string(PROMPT, STDOUT_FILENO);
 		}
-		_write_char_to_stderr(BUFFER_FLUSH,STDERR_FILENO);
-		 
-		read_line= _get_input(obj);
+		_write_char_to_stderr(BUFFER_FLUSH, STDERR_FILENO);
+
+		read_line = _get_input(obj);
 
 		if (read_line != SYS_ERROR)
 		{
-			
-			
+
 			_set_shell_obj(obj, av);
 			builtin_ret = _find_builtin(obj);
-			printf("btn %d", builtin_ret);
 			if (builtin_ret == SYS_ERROR)
 			{
 				_run_cmd(obj);
-				puts("++++++++++++++++++++>");
-				 debugger1(obj->_tokens);
+				debugger1(obj->_tokens);
 			}
-				
 		}
 		else if (_is_interactive(obj))
 		{
-			
+
 			_write_char_to_stdeout('\n', 1);
 		}
 		_garbage_collection(obj, 0);
 	}
 	_write_history(obj);
-	
+
 	_garbage_collection(obj, 1);
 	if (!_is_interactive(obj) && obj->_status)
 		exit(obj->_status);
