@@ -86,7 +86,7 @@ void _next_linkedstream(shell_type *obj, char *buffer,
 	{
 		if (obj->_status)
 		{ /* terminate buffer */
-			buffer[index] = 0;
+			buffer[index] = '\0';
 			curr_pos = length;
 		}
 	}
@@ -98,6 +98,7 @@ void _run_cmd(shell_type *obj)
 {
 	char *path = NULL;
 	int iter, index, is_mode;
+	char *temp_path;
 
 	char *delim = " \t\n";
 
@@ -117,8 +118,8 @@ void _run_cmd(shell_type *obj)
 
 	if (!iter)
 		return;
-	path = _get_path(obj, _shell_getenv(obj, "PATH="), obj->_tokens[0]);
-
+	temp_path = _shell_getenv(obj, "PATH=");
+	path = _get_path(obj, temp_path, obj->_tokens[0]);
 	if (path)
 	{
 		obj->_path = path;
@@ -126,7 +127,7 @@ void _run_cmd(shell_type *obj)
 	}
 	else
 	{
-		is_mode = ((_is_interactive(obj) || _shell_getenv(obj, "PATH=")) ||
+		is_mode = ((_is_interactive(obj) || temp_path) ||
 				   obj->_tokens[0][0] == '/') &&
 						  _is_eXe(obj->_tokens[0])
 					  ? (_TRUE)
@@ -144,6 +145,8 @@ void _run_cmd(shell_type *obj)
 			perror(obj->_tokens[0]);
 		}
 	}
+	if (temp_path)
+		free(temp_path);
 }
 
 void _execute(shell_type *obj)
@@ -164,8 +167,6 @@ void _execute(shell_type *obj)
 		/* print_str_list(_get_envs(obj));*/
 		/*_print_node_strlist(obj->_tokens);START HEREEEE*/
 		ret = execve(obj->_path, obj->_tokens, _get_envs(obj));
-		free(obj->_path);
-		free(obj->_tokens);
 		if (ret == SYS_ERROR)
 		{
 

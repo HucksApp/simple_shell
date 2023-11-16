@@ -34,7 +34,7 @@ int main(int argc, char **argv)
 	shell_type obj[] = {0};
 	int file_descriptor = 2;
 
-	/*_create_shell_obj(obj);*/
+	_create_shell_obj(obj);
 	if (argc == 2)
 	{
 		file_descriptor = open(argv[1], O_RDONLY);

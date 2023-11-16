@@ -46,8 +46,10 @@ int _write_char_to_fd(char next_char, int file_descriptor)
 	buff_flush = _buffer_flush(next_char, &buffer_index, buffer_fd);
 	if (buff_flush)
 	{
-		printf(" stdout %d\n  buffer %s\n  buffer_index %d",
-			   STDERR_FILENO, buffer_fd, buffer_index);
+		/**
+		 *printf(" stdout %d\n  buffer %s\n  buffer_index %d",
+		 *	   STDERR_FILENO, buffer_fd, buffer_index);
+		 */
 		write(file_descriptor, buffer_fd, buffer_index);
 		/* buffer flushed reset buffer index */
 		buffer_index = 0;

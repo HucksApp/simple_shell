@@ -28,7 +28,6 @@ char **_node_to_stringlist(string_list_type *head)
 {
 	string_list_type *current_node;
 	char **str_list;
-	char *str;
 	size_t str_list_len, iter;
 
 	if (!head)
@@ -47,18 +46,16 @@ char **_node_to_stringlist(string_list_type *head)
 
 	for (iter = 0; current_node; iter++, current_node = current_node->next)
 	{
-		str = malloc(sizeof(char) * str_len(current_node->_string));
-		if (str == NULL)
+		str_list[iter] = strdup(current_node->_string);
+		if (str_list[iter] == NULL)
 		{
 			_free_string_list(str_list);
 			return (NULL);
 		}
-		str = _strcpy(str, current_node->_string);
-		str_list[iter] = str;
 	}
 
 	/*terminate the string list*/
-	str[iter] = '\0';
+	str_list[iter] = NULL;
 	return (str_list);
 }
 

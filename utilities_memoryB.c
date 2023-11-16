@@ -76,3 +76,14 @@ void _free_node_lists(string_list_type **head_ptr)
 	}
 	*head_ptr = NULL;
 }
+void _free_string_list(char **str_list)
+{
+	int index;
+
+	if (str_list)
+	{
+		for (index = 0; str_list[index]; index++)
+			_free(str_list[index]);
+		free(str_list);
+	}
+}

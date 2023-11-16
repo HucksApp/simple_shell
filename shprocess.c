@@ -25,13 +25,11 @@ int _start_process(shell_type *obj, UNUSED char **av)
 
 		if (read_line != SYS_ERROR)
 		{
-
 			_set_shell_obj(obj, av);
 			builtin_ret = _find_builtin(obj);
 			if (builtin_ret == SYS_ERROR)
 			{
 				_run_cmd(obj);
-				debugger1(obj->_tokens);
 			}
 		}
 		else if (_is_interactive(obj))

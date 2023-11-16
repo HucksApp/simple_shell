@@ -10,7 +10,7 @@
 int is_dynamic_mem(char *str)
 {
 	if (str == NULL)
-		return _FALSE;
+		return (_FALSE);
 	/* Check if the string pointer points to the stack */
 	return ((void *)str >= (void *)&str ? (_FALSE) : (_TRUE));
 }
@@ -26,6 +26,19 @@ void _free_strlistnode(string_list_type *node)
 		node->next = NULL;
 	free(node->_string);
 	free(node);
+}
+void _free_strlistnode2(string_list_type *node)
+{
+	string_list_type *current = node;
+	string_list_type *next;
+
+	while (current != NULL)
+	{
+		next = current->next;
+		free(current->_string);
+		free(current);
+		current = next;
+	}
 }
 
 /**
@@ -52,12 +65,4 @@ void _free_array(char **arr)
 		free(arr);
 		arr = NULL;
 	}
-}
-
-void _free_string_list(char **str_list)
-{
-	int index;
-	for (index = 0; str_list[index]; index++)
-		_free(str_list[index]);
-	free(str_list);
 }

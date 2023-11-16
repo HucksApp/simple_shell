@@ -176,6 +176,7 @@ char *_strdupl(char *str)
 		iter++;
 		str++;
 	}
+	str_dupl[iter] = null;
 	/* Free heap memomry str_dupl after use */
 	return (str_dupl);
 }

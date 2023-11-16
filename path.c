@@ -50,13 +50,12 @@ char *_get_path(UNUSED shell_type *obj, char *paths, char *cmd_name)
 	{
 		return (cmd_name);
 	}
-
 	for (index = 0; index < 600; iter++)
 	{
 		if (!paths[iter] || paths[iter] == path_delim)
 		{
 			path = _copy_path(paths, index, iter);
-			if (!path)
+			if (!*path)
 			{
 				/* path is empty  add new path */
 				path = strdup(cmd_name);
@@ -69,6 +68,8 @@ char *_get_path(UNUSED shell_type *obj, char *paths, char *cmd_name)
 			}
 			if (_is_eXe(path))
 				return (path);
+			if (!paths[iter])
+				break;
 			index = iter;
 		}
 	}

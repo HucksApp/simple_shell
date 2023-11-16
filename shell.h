@@ -174,6 +174,7 @@ ssize_t _getinput(shell_type *obj);
 /*MEMORY UTILITIES*/
 int is_dynamic_mem(char *str);
 void _free_strlistnode(string_list_type *node);
+void _free_strlistnode2(string_list_type *node);
 void _free_string_list(char **str_list);
 void _free(char *str);
 void _free_array(char **arr);

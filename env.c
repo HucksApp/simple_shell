@@ -42,6 +42,7 @@ int _shell_unsetenv(shell_type *obj)
 char *_shell_getenv(shell_type *obj, char *name)
 {
 	string_list_type *node = obj->_envs;
+	char *env_value;
 
 	for (; node; node = node->next)
 	{
@@ -51,7 +52,12 @@ char *_shell_getenv(shell_type *obj, char *name)
 		 */
 		if (_match_env(node->_string, name))
 		{
-			return (((node->_string) + _match_env(node->_string, name) + 1));
+			env_value = malloc(strlen(node->_string) -
+							   _match_env(node->_string, name) + 1);
+			if (env_value == NULL)
+				return (NULL);
+			strcpy(env_value, (node->_string) + _match_env(node->_string, name) + 1);
+			return (env_value);
 		}
 	}
 

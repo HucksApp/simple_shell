@@ -9,13 +9,13 @@ void _garbage_collection(shell_type *obj, int total)
 	if (total)
 	{
 		if (obj->_envs)
-			_free_strlistnode(obj->_envs);
+			_free_strlistnode2(obj->_envs);
 
 		if (obj->_aliases)
-			_free_strlistnode(obj->_envs);
+			_free_strlistnode2(obj->_envs);
 
 		if (obj->_history)
-			_free_strlistnode(obj->_history);
+			_free_strlistnode2(obj->_history);
 
 		if (obj->_cmd_chain)
 			_free_str_in_str(obj->_cmd_chain);
