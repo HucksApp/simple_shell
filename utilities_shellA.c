@@ -61,11 +61,14 @@ char **_tokenize1(char *str, char *deli)
 	char **token_list;
 	char *token;
 
-	length = str_len(str);
-	token_list = malloc(sizeof(char) * length + 1);
-
-	if (str == NULL || str[0] == 0 || token_list == NULL)
+	if (str == NULL || str[0] == 0)
 		return (NULL);
+
+	length = str_len(str);
+	token_list = malloc(sizeof(char *) * (length + 1));
+	if (token_list == NULL)
+		return (NULL);
+
 	if (!deli)
 		/*default delimeter*/
 		deli = " ";
@@ -73,17 +76,19 @@ char **_tokenize1(char *str, char *deli)
 	token = _strtok(str, deli);
 	for (list_index = 0; token != NULL; list_index++)
 	{
-		token = _strtok(NULL, deli);
 		token_list[list_index] = token;
-		if (!token_list[list_index])
-		{
-			_free(token_list[list_index]);
-		}
+		token = _strtok(NULL, deli);
+		/**
+		 *if (!token_list[list_index])
+		 *{
+		 *	_free(token_list[list_index]);
+		 *}
+		 */
 	}
 
 	token_list[list_index] = NULL;
 
-	if (!token_list)
+	if (token_list[0] == NULL)
 	{
 		free(token_list);
 		return (NULL);

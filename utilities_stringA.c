@@ -92,15 +92,16 @@ char *_strtok(char *str, char *delimiters)
 	char *ret = NULL;
 	int len, iter;
 
-	if (str != NULL || str)
+	if (str != NULL && *str != null)
 		start_token = str;
 	else if (start_token == NULL)
 		return NULL;
 
-	/* jump string to the not delimeter character */
+	/* Jump to the non-delimiter character */
 	while (*start_token != null && _strchr(*start_token, delimiters))
 		start_token++;
-	/*if the string has ended return null */
+
+	/* If the string has ended, return null*/
 	if (*start_token == null)
 	{
 		start_token = NULL;
@@ -109,41 +110,41 @@ char *_strtok(char *str, char *delimiters)
 
 	end_token = start_token;
 
-	/* add 1 to accept the null terminator (len + 1) */
-
-	len = _strchr(*start_token, delimiters);
-	ret = malloc(sizeof(char) * (len + 1));
-	if (!ret)
-		return (NULL);
-
-	iter = 0;
-	/* search for the  end of token  or jumps to next delimter in string */
+	/* Find the end of the token*/
 	while (*end_token != null && _strchr(*end_token, delimiters) == _FALSE)
 	{
-		ret[iter] = *end_token;
 		end_token++;
-		iter++;
 	}
-	ret[iter] = null;
-	/* insert a null terminator at the end of the token */
 
-	switch ((*end_token))
-	{
-	case null:
-		start_token = NULL;
-		break;
+	/* Calculate the length of the token*/
+	len = end_token - start_token;
 
-	default:
-		*end_token = null;
-		start_token = (end_token + 1);
-		break;
-	}
+	/* Allocate memory for the token*/
+	ret = malloc(sizeof(char) * (len + 1));
 	if (!ret)
-		free(ret);
+		return NULL;
 
+	/* Copy the token to the allocated memory*/
+	for (iter = 0; iter < len; iter++)
+	{
+		ret[iter] = *start_token;
+		start_token++;
+	}
+	ret[iter] = null; /* Insert a null terminator at the end of the token*/
+
+	/* Update start_token to the next position*/
+	if (*end_token == null)
+	{
+		start_token = NULL;
+	}
+	else
+	{
+		*end_token = null;
+		start_token = end_token + 1;
+	}
+	/*free ret after using*/
 	return (ret);
 }
-
 /**
  * _strdupl - creates a dublicate string
  * @str: string to dublicate

@@ -20,7 +20,6 @@ int _start_process(shell_type *obj, UNUSED char **av)
 			_write_string(PROMPT, STDOUT_FILENO);
 		}
 		_write_char_to_stderr(BUFFER_FLUSH, STDERR_FILENO);
-
 		read_line = _get_input(obj);
 
 		if (read_line != SYS_ERROR)
