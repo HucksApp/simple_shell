@@ -146,6 +146,7 @@ int _shell_cd(shell_type *obj);
 int _shell_help(shell_type *obj);
 int _shell_history(shell_type *obj);
 
+/*SIGNAL HANDLER*/
 void signal_handler(UNUSED int sig);
 
 /* WRITE FUNCTIONS*/
