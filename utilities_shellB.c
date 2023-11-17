@@ -99,6 +99,7 @@ void _run_cmd(shell_type *obj)
 	char *path = NULL;
 	int iter, index, is_mode;
 	char *temp_path;
+	char *file_name;
 
 	char *delim = " \t\n";
 
@@ -143,7 +144,15 @@ void _run_cmd(shell_type *obj)
 		{
 			obj->_status = FILE_NOT_FOUND;
 			errno = ENOENT;
-			fprintf(stderr, "%s: %d: %s: not found\n", obj->_file_name, obj->_read_count, obj->_tokens[0]);
+			if (temp_path == NULL)
+			{
+				file_name = basename(obj->_file_name);
+				fprintf(stderr, "./%s: %d: %s: not found\n", file_name, obj->_read_count, obj->_tokens[0]);
+			}
+			else
+			{
+				perror(obj->_tokens[0]);
+			}
 		}
 	}
 	if (temp_path)

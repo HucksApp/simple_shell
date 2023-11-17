@@ -15,6 +15,7 @@
 #include <errno.h>
 #include <signal.h>
 #include <limits.h>
+#include <libgen.h>
 #include "macros.h"
 
 /*
