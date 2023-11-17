@@ -2,8 +2,8 @@
 #include "shell.h"
 
 /**
- * if the head(origin) which is a pointer  is needed
- * we pass in a pointer to the pointer head
+ * _create_node - Create a new node for a linked list
+ * Return: Pointer to the newly created node or NULL on failure
  */
 
 string_list_type *_create_node(void)
@@ -19,6 +19,13 @@ string_list_type *_create_node(void)
 	return (new_node);
 }
 
+/**
+ * _prepend_node - Add a node to the beginning of a linked list
+ * @head: Pointer to the head of the linked list
+ * @str: String to be stored in the new node
+ * @num: Number to be stored in the new node
+ * Return: Pointer to the newly added node or NULL on failure
+ */
 string_list_type *_prepend_node(string_list_type **head, char *str, int num)
 {
 	string_list_type *new_head;
@@ -41,7 +48,13 @@ string_list_type *_prepend_node(string_list_type **head, char *str, int num)
 	}
 	return (NULL);
 }
-
+/**
+ * _append_node - Add a node to the end of a linked list
+ * @head: Pointer to the head of the linked list
+ * @str: String to be stored in the new node
+ * @num: Number to be stored in the new node
+ * Return: Pointer to the newly added node or NULL on failure
+ */
 string_list_type *_append_node(string_list_type **head, char *str, int num)
 {
 	string_list_type *end_node, *last_node;
@@ -77,6 +90,12 @@ string_list_type *_append_node(string_list_type **head, char *str, int num)
 	return (NULL);
 }
 
+/**
+ * _remove_node_at - Remove a node at a specific position in a linked list
+ * @head: Pointer to the head of the linked list
+ * @position: Position of the node to be removed
+ * Return: TRUE if the node is successfully removed, FALSE otherwise
+ */
 int _remove_node_at(string_list_type **head, unsigned int position)
 {
 	string_list_type *temp_node, *del_node, *prev_node;

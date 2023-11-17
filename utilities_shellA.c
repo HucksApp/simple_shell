@@ -1,5 +1,9 @@
 #include "shell.h"
-
+/**
+ * _garbage_collection - frees memory associated with the shell_type object
+ * @obj: pointer to the shell_type object
+ * @total: flag indicating whether to perform total garbage collection
+ */
 void _garbage_collection(shell_type *obj, int total)
 {
 	_free_string_list(obj->_tokens);
@@ -32,6 +36,11 @@ void _garbage_collection(shell_type *obj, int total)
 		_write_char_to_stdeout(BUFFER_FLUSH, STDOUT_FILENO);
 	}
 }
+/**
+ * _shell_refresh - resets certain fields in the shell_type object
+ * @obj: pointer to the shell_type object
+ * Return: _TRUE (1) on success, _FALSE (0) on failure
+ */
 
 int _shell_refresh(shell_type *obj)
 {
@@ -44,6 +53,10 @@ int _shell_refresh(shell_type *obj)
 				? (_FALSE)
 				: (_TRUE));
 }
+/**
+ * _create_shell_token - creates a token in the shell_type object
+ * @obj: pointer to the shell_type object
+ */
 
 void _create_shell_token(shell_type *obj)
 {
@@ -54,7 +67,12 @@ void _create_shell_token(shell_type *obj)
 		obj->_tokens[1] = NULL;
 	}
 }
-
+/**
+ * _tokenize1 - tokenizes a string using the specified delimiters
+ * @str: input string to tokenize
+ * @deli: delimiter string
+ * Return: pointer to the token list
+ */
 char **_tokenize1(char *str, char *deli)
 {
 	int length, list_index;
@@ -96,6 +114,11 @@ char **_tokenize1(char *str, char *deli)
 	return (token_list);
 }
 
+/**
+ * _set_shell_obj - initializes the shell_type object with input arguments
+ * @obj: pointer to the shell_type object
+ * @argv: array of input arguments
+ */
 void _set_shell_obj(shell_type *obj, char *argv[])
 {
 	int iter = 0;

@@ -1,4 +1,8 @@
 #include "shell.h"
+/**
+ * _create_shell_obj - Initializes the shell_type object with default values.
+ * @obj: Pointer to the shell_type object.
+ */
 
 void _create_shell_obj(shell_type *obj)
 {
@@ -21,13 +25,11 @@ void _create_shell_obj(shell_type *obj)
 	obj->_error_num = 0;
 	obj->_chain_stream_type = 0;
 }
-
 /**
- * main - entry point
- * @ac: arg count
- * @av: arg vector
- *
- * Return: 0 on success, 1 on error
+ * main - Entry point for the shell program.
+ * @argc: Argument count.
+ * @argv: Argument vector.
+ * Return: 0 on success, 1 on error.
  */
 int main(int argc, char **argv)
 {

@@ -1,11 +1,10 @@
 #include "shell.h"
 
 /**
- * hsh - main shell loop
- * @info: the parameter & return info struct
- * @av: the argument vector from main()
- *
- * Return: 0 on success, 1 on error, or error code
+ * _start_process - Main shell loop to read, parse, and execute commands.
+ * @obj: Pointer to the shell_type object.
+ * @av: Argument vector from main().
+ * Return: 0 on success, 1 on error, or error code.
  */
 int _start_process(shell_type *obj, UNUSED char **av)
 {

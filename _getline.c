@@ -1,10 +1,9 @@
 #include "shell.h"
 
 /**
- * remove_comments - function replaces first instance of '#' with '\0'
- * @buf: address of the string to modify
- *
- * Return: Always 0;
+ * remove_comments - Replaces the first instance of
+ *  '#' with '\0' if it is preceded by a space.
+ * @buf: Address of the string to modify.
  */
 void remove_comments(char *buf)
 {
@@ -19,82 +18,8 @@ void remove_comments(char *buf)
 }
 
 /**
- **_strncpy - copies a string
- *@dest: the destination string to be copied to
- *@src: the source string
- *@n: the amount of characters to be copied
- *Return: the concatenated string
- */
-char *_strncpy(char *dest, char *src, int n)
-{
-	int i, j;
-	char *s = dest;
-
-	i = 0;
-	while (src[i] != '\0' && i < n - 1)
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	if (i < n)
-	{
-		j = i;
-		while (j < n)
-		{
-			dest[j] = '\0';
-			j++;
-		}
-	}
-	return (s);
-}
-
-/**
- **_strncat - concatenates two strings
- *@dest: the first string
- *@src: the second string
- *@n: the amount of bytes to be maximally used
- *Return: the concatenated string
- */
-char *_strncat(char *dest, char *src, int n)
-{
-	int i, j;
-	char *s = dest;
-
-	i = 0;
-	j = 0;
-	while (dest[i] != '\0')
-		i++;
-	while (src[j] != '\0' && j < n)
-	{
-		dest[i] = src[j];
-		i++;
-		j++;
-	}
-	if (j < n)
-		dest[i] = '\0';
-	return (s);
-}
-
-/**
- **_strchr - locates a character in a string
- *@s: the string to be parsed
- *@c: the character to look for
- *Return: (s) a pointer to the memory area s
- */
-char *_strchrt(char *s, char c)
-{
-	do
-	{
-		if (*s == c)
-			return (s);
-	} while (*s++ != '\0');
-
-	return (NULL);
-}
-
-/**
  * input_buf - buffers chained commands
- * @info: parameter struct
+ * @obj: parameter struct
  * @buf: address of buffer
  * @len: address of len var
  *
@@ -134,10 +59,9 @@ ssize_t input_buf(shell_type *obj, char **buf, size_t *len)
 }
 
 /**
- * get_input - gets a line minus the newline
- * @info: parameter struct
- *
- * Return: bytes read
+ * _get_input - Gets a line minus the newline.
+ * @obj: Parameter struct.
+ * Return: Bytes read.
  */
 ssize_t _get_input(shell_type *obj)
 {
@@ -179,32 +103,11 @@ ssize_t _get_input(shell_type *obj)
 }
 
 /**
- * read_buf - reads a buffer
- * @info: parameter struct
- * @buf: buffer
- * @i: size
- *
- * Return: r
- */
-ssize_t read_buf(shell_type *obj, char *buf, size_t *i)
-{
-	ssize_t r = 0;
-
-	if (*i)
-		return (0);
-	r = read(obj->_file_descriptor, buf, BUFFER_SIZE);
-	if (r >= 0)
-		*i = r;
-	return (r);
-}
-
-/**
- * _getline - gets the next line of input from STDIN
- * @info: parameter struct
- * @ptr: address of pointer to buffer, preallocated or NULL
- * @length: size of preallocated ptr buffer if not NULL
- *
- * Return: s
+ * _getline - Gets the next line of input from STDIN.
+ * @obj: Parameter struct.
+ * @ptr: Address of pointer to buffer, preallocated or NULL.
+ * @length: Size of preallocated ptr buffer if not NULL.
+ * Return: s.
  */
 int _get_line(shell_type *obj, char **ptr, size_t *length)
 {
@@ -243,11 +146,4 @@ int _get_line(shell_type *obj, char **ptr, size_t *length)
 		*length = s;
 	*ptr = p;
 	return (s);
-}
-
-void signal_handler(UNUSED int sig)
-{
-	_write_string("\n", STDOUT_FILENO);
-	_write_string(PROMPT, STDOUT_FILENO);
-	_write_char_to_stdeout(BUFFER_FLUSH, STDOUT_FILENO);
 }

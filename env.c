@@ -1,5 +1,9 @@
 #include "shell.h"
-
+/**
+ * _init_sys_envs - Initializes system environment variables for the shell.
+ * @obj: Pointer to the shell_type object.
+ * Return: _TRUE on success, _FALSE on failure.
+ */
 int _init_sys_envs(shell_type *obj)
 {
 	string_list_type *node_head = NULL;
@@ -11,12 +15,21 @@ int _init_sys_envs(shell_type *obj)
 	return (_TRUE);
 }
 
+/**
+ * _shell_env - Displays the current environment variables.
+ * @obj: Pointer to the shell_type object.
+ * Return: _TRUE.
+ */
 int _shell_env(shell_type *obj)
 {
 	print_str_list(obj->_envs);
 	return (_TRUE);
 }
-
+/**
+ * _shell_setenv - Sets a new environment variable or updates an existing one.
+ * @obj: Pointer to the shell_type object.
+ * Return: _TRUE if successful, _FALSE if an error occurs.
+ */
 int _shell_setenv(shell_type *obj)
 {
 	if (_args_errors(obj, "setenv"))
@@ -26,10 +39,16 @@ int _shell_setenv(shell_type *obj)
 		return (_TRUE);
 	return (_FALSE);
 }
+/**
+ * _shell_unsetenv - Unsets one or more environment variables.
+ * @obj: Pointer to the shell_type object.
+ * Return: _TRUE if successful, _FALSE if an error occurs.
+ */
 
 int _shell_unsetenv(shell_type *obj)
 {
 	int iter;
+
 	if (_args_errors(obj, "unsetenv"))
 		return (_FALSE);
 
@@ -38,7 +57,13 @@ int _shell_unsetenv(shell_type *obj)
 
 	return (_TRUE);
 }
-
+/**
+ * _shell_getenv - Gets the value of a specified environment variable.
+ * @obj: Pointer to the shell_type object.
+ * @name: The name of the environment variable.
+ * Return: A string containing the value of the environment
+ * variable, or NULL if not found.
+ */
 char *_shell_getenv(shell_type *obj, char *name)
 {
 	string_list_type *node = obj->_envs;

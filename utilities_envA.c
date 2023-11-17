@@ -1,14 +1,9 @@
 #include "shell.h"
 
 /**
- * _get_envs - to populate the system enviroment variables
- * its Type char ** (string array)
- * its pass as as third argument in main
- * main(int argc, char ** argv, char ** env )
- * or
- *  as external variable environ
- * Type char **
- * extern char **environ
+ * _get_envs - Retrieve the system environment variables as a string array
+ * @obj: Shell object
+ * Return: The array of environment variables
  */
 
 char **_get_envs(shell_type *obj)
@@ -20,7 +15,12 @@ char **_get_envs(shell_type *obj)
 	}
 	return (obj->_env);
 }
-
+/**
+ * _unset_env - Unset a specific environment variable in the shell
+ * @obj: Shell object
+ * @var: The name of the variable to unset
+ * Return: 1 if successful, 0 if unsuccessful
+ */
 int _unset_env(shell_type *obj, char *var)
 {
 	string_list_type *envs_head = obj->_envs;
@@ -44,7 +44,13 @@ int _unset_env(shell_type *obj, char *var)
 	}
 	return (obj->_env_changed);
 }
-
+/**
+ * _set_env - Set or update an environment variable in the shell
+ * @obj: Shell object
+ * @var: The name of the variable to set
+ * @var_value: The value to assign to the variable
+ * Return: 1 if successful, 0 if unsuccessful
+ */
 int _set_env(shell_type *obj, char *var, char *var_value)
 {
 	string_list_type *envs_head = NULL;
@@ -76,7 +82,13 @@ int _set_env(shell_type *obj, char *var, char *var_value)
 	obj->_env_changed = _TRUE;
 	return (_TRUE);
 }
-
+/**
+ * _match_env - Check if a given environment variable matches the
+ * provided string
+ * @envs_path: The environment variable to check
+ * @env_new: The string to compare with
+ * Return: The length of the matching portion if there's a match, 0 if not
+ */
 int _match_env(char *envs_path, char *env_new)
 {
 	int is_same;
@@ -88,7 +100,14 @@ int _match_env(char *envs_path, char *env_new)
 		return (len_to_compare);
 	return (_FALSE);
 }
-
+/**
+ * _match_str - Match two strings and return the position of the
+ * match in the first string
+ * @bulk: The string to search in
+ * @members: The string to search for
+ * Return: A pointer to the matched position in the first string,
+ *  or NULL if no match
+ */
 char *_match_str(char *bulk, char *members)
 {
 	for (; *bulk != '\0'; bulk++, members++)
