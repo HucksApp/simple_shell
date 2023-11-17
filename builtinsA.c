@@ -131,7 +131,6 @@ int _shell_cd(shell_type *obj)
 	if (!obj->_tokens[1])
 	{
 		dir = _shell_getenv(obj, "HOME=");
-		printf("dir ==> %s", dir);
 		if (!dir)
 			chdir_ret =
 				chdir((dir = _shell_getenv(obj, "PWD=")) ? dir : "/");
