@@ -145,13 +145,15 @@ void _run_cmd(shell_type *obj)
 			obj->_status = FILE_NOT_FOUND;
 			errno = ENOENT;
 			if (temp_path == NULL)
+				temp_path = _shell_getenv(obj, "PATH1=");
+			if (temp_path == NULL)
 			{
 				file_name = basename(obj->_file_name);
 				fprintf(stderr, "./%s: %d: %s: not found\n", file_name, obj->_read_count, obj->_tokens[0]);
 			}
 			else
 			{
-				perror(obj->_tokens[0]);
+				fprintf(stderr, "%s: %d: %s: not found\n", obj->_file_name, obj->_read_count, obj->_tokens[0]);
 			}
 		}
 	}
