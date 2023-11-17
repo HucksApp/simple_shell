@@ -80,7 +80,7 @@ int (*which_buffer(int fd))(char c, int fd)
 
 int _write_string(char *str, int file_descriptor)
 {
-	int print_count, iter;
+	size_t print_count, iter;
 	int (*fn_write)(char, int);
 
 	if (!str)

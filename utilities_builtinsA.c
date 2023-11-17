@@ -35,7 +35,14 @@ int _find_builtin(shell_type *obj)
 {
 	int (*cmd_fn)(shell_type *);
 	int found_builtin = -1;
+
+	if (obj->_read_flag == _TRUE)
+	{
+		obj->_read_count++;
+		obj->_read_flag = _FALSE;
+	}
 	cmd_fn = _builtins_cmds_fn(obj->_tokens[0]);
+
 	if (cmd_fn != NULL)
 		found_builtin = cmd_fn(obj);
 

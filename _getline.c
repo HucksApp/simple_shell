@@ -1,10 +1,5 @@
 #include "shell.h"
 
-
-
-
-
-
 /**
  * remove_comments - function replaces first instance of '#' with '\0'
  * @buf: address of the string to modify
@@ -22,10 +17,6 @@ void remove_comments(char *buf)
 			break;
 		}
 }
-
-
-
-
 
 /**
  **_strncpy - copies a string
@@ -92,16 +83,14 @@ char *_strncat(char *dest, char *src, int n)
  */
 char *_strchrt(char *s, char c)
 {
-	do {
+	do
+	{
 		if (*s == c)
 			return (s);
 	} while (*s++ != '\0');
 
 	return (NULL);
 }
-
-
-
 
 /**
  * input_buf - buffers chained commands
@@ -131,13 +120,13 @@ ssize_t input_buf(shell_type *obj, char **buf, size_t *len)
 				(*buf)[r - 1] = '\0'; /* remove trailing newline */
 				r--;
 			}
-			obj->_read_flag = 1;
+			obj->_read_flag = _TRUE;
 			remove_comments(*buf);
 			_build_history(obj, *buf, obj->_history_count++);
 			/* if (_strchr(*buf, ';')) is this a command chain? */
 			{
 				*len = r;
-				obj->_cmd_chain= buf;
+				obj->_cmd_chain = buf;
 			}
 		}
 	}
@@ -161,9 +150,9 @@ ssize_t _get_input(shell_type *obj)
 	r = input_buf(obj, &buf, &len);
 	if (r == -1) /* EOF */
 		return (-1);
-	if (len)	/* we have commands left in the chain buffer */
+	if (len) /* we have commands left in the chain buffer */
 	{
-		j = i; /* init new iterator to current buf position */
+		j = i;		 /* init new iterator to current buf position */
 		p = buf + i; /* get pointer for return */
 
 		_next_linkedstream(obj, buf, i, len, &j);
@@ -174,20 +163,19 @@ ssize_t _get_input(shell_type *obj)
 			j++;
 		}
 
-		i = j + 1; /* increment past nulled ';'' */
+		i = j + 1;	  /* increment past nulled ';'' */
 		if (i >= len) /* reached end of buffer? */
 		{
 			i = len = 0; /* reset position and length */
 			obj->_chain_stream_type = CMD_NUL;
 		}
 
-		*buf_p = p; /* pass back pointer to current command position */
+		*buf_p = p;			 /* pass back pointer to current command position */
 		return (str_len(p)); /* return length of current command */
 	}
 
-	
 	*buf_p = buf; /* else not a chain, pass back buffer from _getline() */
-	return (r); /* return length of buffer from _getline() */
+	return (r);	  /* return length of buffer from _getline() */
 }
 
 /**
@@ -209,9 +197,6 @@ ssize_t read_buf(shell_type *obj, char *buf, size_t *i)
 		*i = r;
 	return (r);
 }
-
-
-
 
 /**
  * _getline - gets the next line of input from STDIN
@@ -260,12 +245,9 @@ int _get_line(shell_type *obj, char **ptr, size_t *length)
 	return (s);
 }
 
-
-
-
 void signal_handler(UNUSED int sig)
 {
-    _write_string("\n", STDOUT_FILENO);
-    _write_string(PROMPT, STDOUT_FILENO);
-    _write_char_to_stdeout(BUFFER_FLUSH, STDOUT_FILENO);
+	_write_string("\n", STDOUT_FILENO);
+	_write_string(PROMPT, STDOUT_FILENO);
+	_write_char_to_stdeout(BUFFER_FLUSH, STDOUT_FILENO);
 }

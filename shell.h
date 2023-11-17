@@ -159,7 +159,7 @@ void _buffer_remove_comment(char *buffer);
 void _print_file_error(char *argv[]);
 size_t _print_node_strlist(string_list_type *head);
 void _print_error_msg(shell_type *obj, char *error_msg);
-int _print_decimal(int num, int file_descriptor);
+int _print_decimal(unsigned int num, int file_descriptor);
 size_t print_str_list(string_list_type *head);
 
 /* PRINT UTILITIES */
