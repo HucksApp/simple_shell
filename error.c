@@ -32,15 +32,3 @@ int _args_errors(shell_type *obj, char *cmd_type)
 	}
 	return (_FALSE);
 }
-
-/**
- * debugger1 - Iterates through a string array until the end.
- * @r: The string array.
- */
-void debugger1(char **r)
-{
-	while (*r)
-	{
-		r++;
-	}
-}

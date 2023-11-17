@@ -53,3 +53,13 @@ void _buffer_remove_comment(char *buffer)
 			break;
 		}
 }
+/**
+ * signal_handler - Handles the interrupt signal (SIGINT).
+ * @sig: Signal number.
+ */
+void signal_handler(UNUSED int sig)
+{
+	_write_string("\n", STDOUT_FILENO);
+	_write_string(PROMPT, STDOUT_FILENO);
+	_write_char_to_stdeout(BUFFER_FLUSH, STDOUT_FILENO);
+}

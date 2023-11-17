@@ -134,7 +134,7 @@ int _is_interactive(shell_type *obj);
 void _run_cmd(shell_type *obj);
 
 /* SHELL FUNCTIONS */
-int _start_process(shell_type *obj, UNUSED char *argv[]);
+int _start_process(shell_type *obj, char **av);
 
 /* BUILTINS UTILITY FUNCTIONS*/
 int _find_builtin(shell_type *obj);
@@ -146,6 +146,7 @@ int _shell_cd(shell_type *obj);
 int _shell_help(shell_type *obj);
 int _shell_history(shell_type *obj);
 
+/*SIGNAL HANDLER*/
 void signal_handler(UNUSED int sig);
 
 /* WRITE FUNCTIONS*/
@@ -168,10 +169,9 @@ size_t print_str_list(string_list_type *head);
 int _count_digits(int num);
 
 /*GETLINE*/
-int _getline(shell_type *obj, char **str, size_t *length);
-void _signal_handler(UNUSED int sig);
-ssize_t _update_buffer(shell_type *obj, char **buffer, size_t *length);
+int _getline(shell_type *obj, char **ptr, size_t *length);
 ssize_t _getinput(shell_type *obj);
+ssize_t _update_buffer(shell_type *obj, char **buffer, size_t *length);
 
 /*MEMORY UTILITIES*/
 int is_dynamic_mem(char *str);
@@ -199,13 +199,6 @@ char *_copy_path(char *path, int start, int stop);
 int _is_eXe(char *path);
 char *_get_path(UNUSED shell_type *obj, char *paths, char *cmd_name);
 
-int _get_line(shell_type *obj, char **ptr, size_t *length);
-/* int hsh(shell_type *obj, UNUSED char **av); */
-ssize_t _get_input(shell_type *obj);
-void execute(shell_type *info);
-void find_cmd(shell_type *info);
-void set_info(shell_type *info, char **av);
 
-void debugger1(char **r);
 
 #endif

@@ -89,7 +89,7 @@ char *_strcat_bybyte(char dest[], char source[], int size)
  */
 char *_strcpy_bybyte(char dest[], char source[], int size)
 {
-	int index;
+	int index, iter;
 
 	char *str = dest;
 
@@ -99,11 +99,25 @@ char *_strcpy_bybyte(char dest[], char source[], int size)
 	/* source is less than size */
 	if (index < size)
 	{
+		iter = index;
 
-		for (; index < size; index++)
+		for (; iter < size; iter++)
 			/*insert null in all*/
 			dest[index] = '\0';
 	}
 
 	return (str);
+}
+
+void _buffer_remove_comment(char *buffer)
+{
+	int index;
+
+	for (index = 0; buffer[index] != null; index++)
+
+		if (buffer[index] == '#' && (buffer[index - 1] == ' ' || index == 0))
+		{
+			buffer[index] = null;
+			break;
+		}
 }

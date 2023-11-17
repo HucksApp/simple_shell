@@ -1,20 +1,20 @@
 #include "shell.h"
 
 /**
- * remove_comments - Replaces the first instance of
- *  '#' with '\0' if it is preceded by a space.
- * @buf: Address of the string to modify.
+ **_strchr - locates a character in a string
+ *@s: the string to be parsed
+ *@c: the character to look for
+ *Return: (s) a pointer to the memory area s
  */
-void remove_comments(char *buf)
+char *_strchrt(char *s, char c)
 {
-	int i;
+	do
+	{
+		if (*s == c)
+			return (s);
+	} while (*s++ != '\0');
 
-	for (i = 0; buf[i] != '\0'; i++)
-		if (buf[i] == '#' && (!i || buf[i - 1] == ' '))
-		{
-			buf[i] = '\0';
-			break;
-		}
+	return (NULL);
 }
 
 /**
@@ -25,37 +25,38 @@ void remove_comments(char *buf)
  *
  * Return: bytes read
  */
-ssize_t input_buf(shell_type *obj, char **buf, size_t *len)
+
+ssize_t _update_buffer(shell_type *obj, char **buffer, size_t *length)
 {
-	ssize_t r = 0;
+	ssize_t read_line = 0;
 	size_t len_p = 0;
 
-	if (!*len) /* if nothing left in the buffer, fill it */
+	if (!*length) /* if nothing left in the buffer, fill it */
 	{
 		/*bfree((void **)info->cmd_buf);*/
-		free(*buf);
-		*buf = NULL;
+		free(*buffer);
+		*buffer = NULL;
 		signal(SIGINT, signal_handler);
 
-		r = _get_line(obj, buf, &len_p);
-		if (r > 0)
+		read_line = _getline(obj, buffer, &len_p);
+		if (read_line > 0)
 		{
-			if ((*buf)[r - 1] == '\n')
+			if ((*buffer)[read_line - 1] == '\n')
 			{
-				(*buf)[r - 1] = '\0'; /* remove trailing newline */
-				r--;
+				(*buffer)[read_line - 1] = '\0'; /* remove trailing newline */
+				read_line--;
 			}
 			obj->_read_flag = _TRUE;
-			remove_comments(*buf);
-			_build_history(obj, *buf, obj->_history_count++);
+			_buffer_remove_comment(*buffer);
+			_build_history(obj, *buffer, obj->_history_count++);
 			/* if (_strchr(*buf, ';')) is this a command chain? */
 			{
-				*len = r;
-				obj->_cmd_chain = buf;
+				*length = read_line;
+				obj->_cmd_chain = buffer;
 			}
 		}
 	}
-	return (r);
+	return (read_line);
 }
 
 /**
@@ -63,7 +64,7 @@ ssize_t input_buf(shell_type *obj, char **buf, size_t *len)
  * @obj: Parameter struct.
  * Return: Bytes read.
  */
-ssize_t _get_input(shell_type *obj)
+ssize_t _getinput(shell_type *obj)
 {
 	static char *buf; /* the ';' command chain buffer */
 	static size_t i, j, len;
@@ -71,13 +72,13 @@ ssize_t _get_input(shell_type *obj)
 	char **buf_p = &(obj->_input_args), *p;
 
 	_write_char_to_stdeout(BUFFER_FLUSH, STDOUT_FILENO);
-	r = input_buf(obj, &buf, &len);
+	r = _update_buffer(obj, &buf, &len);
 	if (r == -1) /* EOF */
 		return (-1);
-	if (len) /* we have commands left in the chain buffer */
+	if (len)
 	{
-		j = i;		 /* init new iterator to current buf position */
-		p = buf + i; /* get pointer for return */
+		j = i;
+		p = buf + i;
 
 		_next_linkedstream(obj, buf, i, len, &j);
 		while (j < len) /* iterate to semicolon or end */
@@ -109,7 +110,7 @@ ssize_t _get_input(shell_type *obj)
  * @length: Size of preallocated ptr buffer if not NULL.
  * Return: s.
  */
-int _get_line(shell_type *obj, char **ptr, size_t *length)
+int _getline(shell_type *obj, char **ptr, size_t *length)
 {
 	static char buf[BUFFER_SIZE];
 	static size_t i, len;
@@ -134,9 +135,9 @@ int _get_line(shell_type *obj, char **ptr, size_t *length)
 		return (p ? free(p), -1 : -1);
 
 	if (s)
-		_strncat(new_p, buf + i, k - i);
+		_strcat_bybyte(new_p, buf + i, k - i);
 	else
-		_strncpy(new_p, buf + i, k - i + 1);
+		_strcpy_bybyte(new_p, buf + i, k - i + 1);
 
 	s += k - i;
 	i = k;
