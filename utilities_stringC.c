@@ -17,6 +17,12 @@ char *_strcpy(char *destination, char *source)
 	return (destination);
 }
 
+
+
+
+
+
+
 int _atoi(char *str)
 {
 	int iter = 0, sign = 1;

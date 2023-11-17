@@ -19,15 +19,12 @@ int _write_char_to_stdeout(char next_char, UNUSED int file_descriptor)
 	return (1);
 }
 
-void _buffer_remove_comment(char *buffer)
+
+
+
+void signal_handler(UNUSED int sig)
 {
-	int index;
-
-	for (index = 0; buffer[index] != null; index++)
-
-		if (buffer[index] == '#' && (buffer[index - 1] == ' ' || index == 0))
-		{
-			buffer[index] = null;
-			break;
-		}
+	_write_string("\n", STDOUT_FILENO);
+	_write_string(PROMPT, STDOUT_FILENO);
+	_write_char_to_stdeout(BUFFER_FLUSH, STDOUT_FILENO);
 }

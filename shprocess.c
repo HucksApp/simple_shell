@@ -7,7 +7,7 @@
  *
  * Return: 0 on success, 1 on error, or error code
  */
-int _start_process(shell_type *obj, UNUSED char **av)
+int _start_process(shell_type *obj, char **av)
 {
 	ssize_t read_line = 0;
 	int builtin_ret = 0;
@@ -20,7 +20,7 @@ int _start_process(shell_type *obj, UNUSED char **av)
 			_write_string(PROMPT, STDOUT_FILENO);
 		}
 		_write_char_to_stderr(BUFFER_FLUSH, STDERR_FILENO);
-		read_line = _get_input(obj);
+		read_line = _getinput(obj);
 
 		if (read_line != SYS_ERROR)
 		{
