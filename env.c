@@ -13,6 +13,7 @@ int _init_sys_envs(shell_type *obj)
 
 int _shell_env(shell_type *obj)
 {
+	
 	print_str_list(obj->_envs);
 	return (_TRUE);
 }
