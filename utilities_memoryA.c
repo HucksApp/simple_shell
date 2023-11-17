@@ -1,10 +1,9 @@
 #include "shell.h"
 
 /**
- * is_dynamic_mem - check string if memory
- * is alocated dynamically
- * @str: string var to check
- * Return: 0 false or 1 true
+ * is_dynamic_mem - Check if memory is dynamically allocated for a string
+ * @str: String variable to check
+ * Return: 0 (false) or 1 (true)
  */
 
 int is_dynamic_mem(char *str)
@@ -16,8 +15,8 @@ int is_dynamic_mem(char *str)
 }
 
 /**
- * _free -free memory allocated to node
- * @node: node
+ * _free_strlistnode - Free memory allocated for a node in a linked list
+ * @node: Node to be freed
  */
 
 void _free_strlistnode(string_list_type *node)
@@ -27,6 +26,12 @@ void _free_strlistnode(string_list_type *node)
 	free(node->_string);
 	free(node);
 }
+
+/**
+ * _free_strlistnode2 - Free memory allocated for a linked list of nodes
+ * @node: Head of the linked list
+ */
+
 void _free_strlistnode2(string_list_type *node)
 {
 	string_list_type *current = node;
@@ -42,8 +47,8 @@ void _free_strlistnode2(string_list_type *node)
 }
 
 /**
- * _free -free memory if alocated dynamically
- * @str: string var free
+ * _free - Free memory if allocated dynamically
+ * @str: String variable to be freed
  */
 
 void _free(char *str)
@@ -51,7 +56,10 @@ void _free(char *str)
 	if (is_dynamic_mem(str))
 		free(str);
 }
-
+/**
+ * _free_array - Free memory allocated for an array of strings
+ * @arr: Array of strings to be freed
+ */
 void _free_array(char **arr)
 {
 	int iter;

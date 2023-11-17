@@ -1,5 +1,12 @@
 #include "shell.h"
-
+/**
+ * _is_linked_stream - checks if the current position in the buffer
+ *  indicates a linked stream
+ * @obj: pointer to the shell_type object
+ * @buffer: the input buffer
+ * @chain_pos: pointer to the current position in the buffer
+ * Return: _TRUE (1) if linked stream found, _FALSE (0) otherwise
+ */
 int _is_linked_stream(shell_type *obj, char *buffer, size_t *chain_pos)
 {
 	size_t index = *chain_pos;
@@ -28,7 +35,12 @@ int _is_linked_stream(shell_type *obj, char *buffer, size_t *chain_pos)
 	*chain_pos = index;
 	return (_TRUE);
 }
-
+/**
+ * _swap_tokens - swaps special tokens like "$?" and "$$" with their
+ * corresponding values
+ * @obj: pointer to the shell_type object
+ * Return: EXIT_SUCCESS on success, -1 on failure
+ */
 int _swap_tokens(shell_type *obj)
 {
 	int index;
@@ -66,7 +78,15 @@ int _swap_tokens(shell_type *obj)
 	}
 	return (EXIT_SUCCESS);
 }
-
+/**
+ * _next_linkedstream - updates the current position based
+ * on the type of linked stream
+ * @obj: pointer to the shell_type object
+ * @buffer: the input buffer
+ * @index: current position in the buffer
+ * @length: length of the buffer
+ * @position: pointer to the current position in the buffer
+ */
 void _next_linkedstream(shell_type *obj, char *buffer,
 						size_t index, size_t length, size_t *position)
 {
@@ -93,6 +113,10 @@ void _next_linkedstream(shell_type *obj, char *buffer,
 
 	*position = curr_pos;
 }
+/**
+ * _run_cmd - runs the command specified in the shell_type object
+ * @obj: pointer to the shell_type object
+ */
 
 void _run_cmd(shell_type *obj)
 {
@@ -149,11 +173,13 @@ void _run_cmd(shell_type *obj)
 			if (temp_path == NULL)
 			{
 				file_name = basename(obj->_file_name);
-				fprintf(stderr, "./%s: %d: %s: not found\n", file_name, obj->_read_count, obj->_tokens[0]);
+				fprintf(stderr, "./%s: %d: %s: not found\n",
+						file_name, obj->_read_count, obj->_tokens[0]);
 			}
 			else
 			{
-				fprintf(stderr, "%s: %d: %s: not found\n", obj->_file_name, obj->_read_count, obj->_tokens[0]);
+				fprintf(stderr, "%s: %d: %s: not found\n",
+						obj->_file_name, obj->_read_count, obj->_tokens[0]);
 			}
 		}
 	}
@@ -161,6 +187,10 @@ void _run_cmd(shell_type *obj)
 		free(temp_path);
 }
 
+/**
+ * _execute - executes the specified command in a child process
+ * @obj: pointer to the shell_type object
+ */
 void _execute(shell_type *obj)
 {
 	pid_t child_process_id;

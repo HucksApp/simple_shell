@@ -1,11 +1,5 @@
 #include "shell.h"
 
-
-
-
-
-
-
 /**
  **_strchr - locates a character in a string
  *@s: the string to be parsed
@@ -25,7 +19,7 @@ char *_strchrt(char *s, char c)
 
 /**
  * input_buf - buffers chained commands
- * @info: parameter struct
+ * @obj: parameter struct
  * @buf: address of buffer
  * @len: address of len var
  *
@@ -66,10 +60,9 @@ ssize_t _update_buffer(shell_type *obj, char **buffer, size_t *length)
 }
 
 /**
- * get_input - gets a line minus the newline
- * @info: parameter struct
- *
- * Return: bytes read
+ * _get_input - Gets a line minus the newline.
+ * @obj: Parameter struct.
+ * Return: Bytes read.
  */
 ssize_t _getinput(shell_type *obj)
 {
@@ -82,10 +75,10 @@ ssize_t _getinput(shell_type *obj)
 	r = _update_buffer(obj, &buf, &len);
 	if (r == -1) /* EOF */
 		return (-1);
-	if (len) 
+	if (len)
 	{
-		j = i;		 
-		p = buf + i; 
+		j = i;
+		p = buf + i;
 
 		_next_linkedstream(obj, buf, i, len, &j);
 		while (j < len) /* iterate to semicolon or end */
@@ -111,32 +104,11 @@ ssize_t _getinput(shell_type *obj)
 }
 
 /**
- * read_buf - reads a buffer
- * @info: parameter struct
- * @buf: buffer
- * @i: size
- *
- * Return: r
- */
-ssize_t read_buf(shell_type *obj, char *buf, size_t *i)
-{
-	ssize_t r = 0;
-
-	if (*i)
-		return (0);
-	r = read(obj->_file_descriptor, buf, BUFFER_SIZE);
-	if (r >= 0)
-		*i = r;
-	return (r);
-}
-
-/**
- * _getline - gets the next line of input from STDIN
- * @info: parameter struct
- * @ptr: address of pointer to buffer, preallocated or NULL
- * @length: size of preallocated ptr buffer if not NULL
- *
- * Return: s
+ * _getline - Gets the next line of input from STDIN.
+ * @obj: Parameter struct.
+ * @ptr: Address of pointer to buffer, preallocated or NULL.
+ * @length: Size of preallocated ptr buffer if not NULL.
+ * Return: s.
  */
 int _getline(shell_type *obj, char **ptr, size_t *length)
 {
@@ -176,5 +148,3 @@ int _getline(shell_type *obj, char **ptr, size_t *length)
 	*ptr = p;
 	return (s);
 }
-
-

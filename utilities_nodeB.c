@@ -1,18 +1,28 @@
 
 #include "shell.h"
-
+/**
+ * _get_node_index - Get the index of a node in a linked list
+ * @head: Pointer to the head of the linked list
+ * @node: Pointer to the node whose index is to be found
+ * Return: Index of the node if found, or SYS_ERROR if not found
+ */
 ssize_t _get_node_index(string_list_type *head, string_list_type *node)
 {
 	size_t index;
 	string_list_type *current_node;
 
 	current_node = head;
-	for (index = 0; current_node != NULL; index++, current_node = current_node->next)
+	for (index = 0; current_node != NULL;
+		 index++, current_node = current_node->next)
 		if (current_node == node)
 			return (index);
 	return (SYS_ERROR);
 }
-
+/**
+ * _node_length - Calculate the length of a linked list
+ * @head: Pointer to the head of the linked list
+ * Return: Length of the linked list
+ */
 size_t _node_length(string_list_type *head)
 {
 	size_t length;
@@ -23,6 +33,11 @@ size_t _node_length(string_list_type *head)
 		;
 	return (length);
 }
+/**
+ * _node_to_stringlist - Convert a linked list of strings to a string array
+ * @head: Pointer to the head of the linked list
+ * Return: String array containing the strings from the linked list
+ */
 
 char **_node_to_stringlist(string_list_type *head)
 {
@@ -58,6 +73,13 @@ char **_node_to_stringlist(string_list_type *head)
 	str_list[iter] = NULL;
 	return (str_list);
 }
+/**
+ * _match_node_str - Find a node in a linked list with a matching key string
+ * @node: Pointer to the head of the linked list
+ * @key: Key string to match
+ * @c: Character to match in the key string, or -1 to match any character
+ * Return: Pointer to the matched node, or NULL if not found
+ */
 
 string_list_type *_match_node_str(string_list_type *node,
 								  char *key, char c)

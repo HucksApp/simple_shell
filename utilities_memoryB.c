@@ -1,22 +1,27 @@
 #include "shell.h"
 
 /**
- * _set_memory - set memory
- * is alocated dynamically
- * @ptr: pointer to memory location
- * @c: byte value to set
- * @size: number of byte to set
- * Return: pointer to memory location
+ * _set_memory - Set memory to a specific byte value
+ * @ptr: Pointer to the memory location
+ * @c: Byte value to set
+ * @size: Number of bytes to set
+ * Return: Pointer to the memory location
  */
 
 char *_set_memory(char *ptr, char c, unsigned int size)
 {
 	unsigned int iter;
+
 	for (iter = 0; iter < size; iter++)
 		/* cast to unsigned chat to ensure 'its in bytes' */
 		ptr[iter] = (unsigned char)c;
 	return (ptr);
 }
+/**
+ * _free_str_in_str - Free memory allocated for a string pointer
+ * @str: Pointer to the string pointer
+ * Return: TRUE if memory is successfully freed, FALSE otherwise
+ */
 
 int _free_str_in_str(char **str)
 {
@@ -28,7 +33,13 @@ int _free_str_in_str(char **str)
 	}
 	return (_FALSE);
 }
-
+/**
+ * _realloc - Reallocate memory for a pointer to a new size
+ * @ptr: Pointer to the memory location to be reallocated
+ * @old_size: Old size of the memory block
+ * @new_size: New size of the memory block
+ * Return: Pointer to the reallocated memory block
+ */
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 {
 	unsigned int indexes;
@@ -58,7 +69,10 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 		return (NULL);
 	return (new_ptr);
 }
-
+/**
+ * _free_node_lists - Free memory allocated for a linked list of nodes
+ * @head_ptr: Pointer to the head of the linked list
+ */
 void _free_node_lists(string_list_type **head_ptr)
 {
 	string_list_type *node, *next_node, *head;
@@ -76,6 +90,10 @@ void _free_node_lists(string_list_type **head_ptr)
 	}
 	*head_ptr = NULL;
 }
+/**
+ * _free_string_list - Free memory allocated for an array of strings
+ * @str_list: Pointer to the array of strings
+ */
 void _free_string_list(char **str_list)
 {
 	int index;

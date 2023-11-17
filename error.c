@@ -1,5 +1,10 @@
 #include "shell.h"
-
+/**
+ * _args_errors - Checks for command-specific argument errors and handles them.
+ * @obj: Pointer to the shell_type object.
+ * @cmd_type: The type of command (e.g., "setenv", "unsetenv").
+ * Return: _TRUE if there are errors, _FALSE otherwise.
+ */
 int _args_errors(shell_type *obj, char *cmd_type)
 {
 	;

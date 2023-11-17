@@ -1,10 +1,10 @@
 #include "shell.h"
 
 /**
- * _strconcat - concatenate two string
+ * _strconcat - concatenates two strings
  * @source: string to add from
  * @dest: string to add to
- * Return: pointer to contenated string
+ * Return: pointer to concatenated string
  */
 
 char *_strconcat(char dest[], char source[])
@@ -20,13 +20,12 @@ char *_strconcat(char dest[], char source[])
 }
 
 /**
- * _strcmpr - compare two string
- * @str1: string to compare 1
- * @str2: string to compare 2
- * @size: string to add to
- * Return: TRUE 1 or FALSE 0
+ * _strcmpr - compares two strings up to a specified size
+ * @str1: first string to compare
+ * @str2: second string to compare
+ * @size: maximum number of characters to compare
+ * Return: _TRUE (1) if strings match, _FALSE (0) otherwise
  */
-
 int _strcmpr(char *str1, char *str2, int size)
 {
 	int iter;
@@ -58,13 +57,11 @@ int _strcmpr(char *str1, char *str2, int size)
 		return (_TRUE);
 	}
 }
-
 /**
- * _isalpha - Verifies the char c is an alphabet
- * @ch: Char
- * Return: 1 if c is a digit, 0 if false
+ * _isalpha - checks if a character is an alphabet letter
+ * @ch: the character
+ * Return: _TRUE (1) if ch is an alphabet letter, _FALSE (0) otherwise
  */
-
 int _isalpha(int ch)
 {
 	/*its between a and z or A and Z ascii value */
@@ -74,21 +71,21 @@ int _isalpha(int ch)
 }
 
 /**
- * _isdigit - Verifies the char c is a digit
- * @ch: Char
- * Return: 1 if c is a digit, 0 if false
+ * _isdigit - checks if a character is a digit
+ * @ch: the character
+ * Return: _TRUE (1) if ch is a digit, _FALSE (0) otherwise
  */
+
 int _isdigit(char ch)
 {
 	if (ch >= '0' && ch <= '9')
 		return (_TRUE);
 	return (_FALSE);
 }
-
 /**
- * str_len - find string length
- * @str: string
- * Return: string length
+ * str_len - finds the length of a string
+ * @str: the string
+ * Return: the length of the string
  */
 
 int str_len(char *str)

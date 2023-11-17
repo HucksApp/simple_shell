@@ -1,5 +1,12 @@
 #include "shell.h"
-
+/**
+ * _copy_path - Copies a portion of the path string specified by
+ * start and stop indices.
+ * @path: The source path string.
+ * @start: The starting index.
+ * @stop: The stopping index.
+ * Return: A pointer to the copied path.
+ */
 char *_copy_path(char *path, int start, int stop)
 {
 	static char buffer[BUFFER_SIZE];
@@ -14,7 +21,11 @@ char *_copy_path(char *path, int start, int stop)
 	buffer[index] = 0;
 	return (buffer);
 }
-
+/**
+ * _is_eXe - Checks if the given path points to a regular file.
+ * @path: The path to check.
+ * Return: _TRUE if the path points to a regular file, _FALSE otherwise.
+ */
 int _is_eXe(char *path)
 {
 	struct stat file_stats;
@@ -31,8 +42,14 @@ int _is_eXe(char *path)
 }
 
 /* for futher path handling the shell obj passed as unsed */
-
-char *_get_path(UNUSED shell_type *obj, char *paths, char *cmd_name)
+/**
+ * _get_path - Retrieves the full path for a command.
+ * @obj: Pointer to the shell_type object (unused in this function).
+ * @paths: The environment variable containing multiple paths.
+ * @cmd_name: The name of the command.
+ * Return: A pointer to the full path of the command if found, NULL otherwise.
+ */
+char *_get_path(UNUSED shell_type * obj, char *paths, char *cmd_name)
 {
 	char *path;
 	int is_valid = 0, iter = 0, index = 0;

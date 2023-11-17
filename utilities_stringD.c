@@ -1,5 +1,38 @@
 #include "shell.h"
 
+/**
+ *  _atoi1 - convert char to int for printing
+ * @str: string to convert
+ * Return: printable char numbers
+ */
+
+int _atoi1(char *str)
+{
+	int num = 0, sign = 1;
+
+	for (; *str != null; str++)
+
+		/* skip spaces */
+		if (*str == ' ')
+			continue;
+		/*char is a sign*/
+		else if (*str == '-')
+			sign = -1;
+
+		/*char is a number*/
+		else if (_isdigit(*str))
+			num = num * 10 + (*str - '0');
+
+		else
+			break;
+
+	return (num * sign);
+}
+/**
+ * _etoi - converts a string to an integer
+ * @s: the string to convert
+ * Return: the converted integer, or -1 if conversion fails
+ */
 int _etoi(char *s)
 {
 	int i = 0;
@@ -23,10 +56,11 @@ int _etoi(char *s)
 }
 
 /**
- * _chars_concat - concatenate two string
- * @source: string to add from
+ * _strcat_bybyte - concatenates two strings up to a specified size
  * @dest: string to add to
- * Return: pointer to contenated string
+ * @source: string to add from
+ * @size: maximum number of characters to concatenate
+ * Return: pointer to the concatenated string
  */
 
 char *_strcat_bybyte(char dest[], char source[], int size)
@@ -46,13 +80,13 @@ char *_strcat_bybyte(char dest[], char source[], int size)
 	return (result);
 }
 
-
-
-
-
-
-
-
+/**
+ * _strcpy_bybyte - copies a string up to a specified size
+ * @dest: destination string
+ * @source: source string
+ * @size: maximum number of characters to copy
+ * Return: pointer to the copied string
+ */
 char *_strcpy_bybyte(char dest[], char source[], int size)
 {
 	int index, iter;
@@ -75,8 +109,6 @@ char *_strcpy_bybyte(char dest[], char source[], int size)
 	return (str);
 }
 
-
-
 void _buffer_remove_comment(char *buffer)
 {
 	int index;
@@ -89,4 +121,3 @@ void _buffer_remove_comment(char *buffer)
 			break;
 		}
 }
-
