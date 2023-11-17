@@ -99,7 +99,6 @@ void _run_cmd(shell_type *obj)
 	char *path = NULL;
 	int iter, index, is_mode;
 	char *temp_path;
-	int temp_status;
 
 	char *delim = " \t\n";
 
@@ -125,9 +124,7 @@ void _run_cmd(shell_type *obj)
 	{
 		obj->_path = path;
 
-		temp_status = obj->_status; /*added this line */
 		_execute(obj);
-		obj->_status = temp_status; /*and this to make sure the value doesnt change*/
 	}
 	else
 	{
@@ -139,9 +136,7 @@ void _run_cmd(shell_type *obj)
 
 		if (is_mode)
 		{
-			temp_status = obj->_status; /*added this line */
 			_execute(obj);
-			obj->_status = temp_status; /*and this to make sure the value doesnt change*/
 		}
 
 		else if (*(obj->_input_args) != '\n')
@@ -176,7 +171,6 @@ void _execute(shell_type *obj)
 		ret = execve(obj->_path, obj->_tokens, _get_envs(obj));
 		if (ret == SYS_ERROR)
 		{
-
 			_garbage_collection(obj, 1);
 			perror(obj->_file_name);
 			if (errno == EACCES)
@@ -193,15 +187,16 @@ void _execute(shell_type *obj)
 		if (WIFEXITED(obj->_status))
 		{
 			/* child process is finished normally with status */
-			obj->_status = WIFEXITED(obj->_status);
-
+			obj->_status = WEXITSTATUS(obj->_status);
 			if (obj->_status == PERMISSION_DENIED)
 			{
 				perror(obj->_file_name);
 			}
 		}
 		else if (WIFSIGNALED(obj->_status))
+		{
 			/* child process was terminated due to a signal */
 			obj->_status = 128 + WTERMSIG(obj->_status);
+		}
 	}
 }

@@ -13,6 +13,7 @@
 #include <readline/history.h>
 #include <fcntl.h> /* for open files*/
 #include <errno.h>
+#include <signal.h>
 #include <limits.h>
 #include "macros.h"
 

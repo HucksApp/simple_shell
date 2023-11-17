@@ -26,7 +26,6 @@ int _start_process(shell_type *obj, UNUSED char **av)
 		{
 			_set_shell_obj(obj, av);
 			builtin_ret = _find_builtin(obj);
-
 			if (builtin_ret == SYS_ERROR)
 			{
 				_run_cmd(obj);
