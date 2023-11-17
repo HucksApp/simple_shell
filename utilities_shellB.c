@@ -143,7 +143,7 @@ void _run_cmd(shell_type *obj)
 		{
 			obj->_status = FILE_NOT_FOUND;
 			errno = ENOENT;
-			perror(obj->_tokens[0]);
+			fprintf(stderr, "%s: %d: %s: not found\n", obj->_file_name, obj->_read_count, obj->_tokens[0]);
 		}
 	}
 	if (temp_path)
