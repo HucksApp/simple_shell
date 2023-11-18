@@ -33,7 +33,7 @@ int _shell_exit(shell_type *obj)
 int _shell_help(shell_type *obj)
 {
 	int length, index;
-	char *msgs[6] = {NULL};
+	char *msgs[7] = {NULL};
 
 	msgs[0] = HELP_MSG;
 	msgs[1] = HELP_EXIT_MSG;
@@ -41,9 +41,12 @@ int _shell_help(shell_type *obj)
 	msgs[3] = HELP_SETENV_MSG;
 	msgs[4] = HELP_UNSETENV_MSG;
 	msgs[5] = HELP_CD_MSG;
+	msgs[6] = NULL;
 
+	
 	if (obj->_tokens[1] == NULL)
 	{
+
 		_write_string(msgs[0] + 6, STDOUT_FILENO);
 		return (EXIT_SUCCESS);
 	}
@@ -53,19 +56,23 @@ int _shell_help(shell_type *obj)
 		perror(obj->_tokens[1]);
 		return (EXIT_FAILURE);
 	}
+	
 
 	length = str_len(obj->_tokens[1]);
-	for (index = 0; msgs[index]; index++)
+	for (index = 0; msgs[index] != NULL; index++)
+	{
 
 		if (_strcmpr((obj->_tokens[1]), msgs[index], length))
 		{
 			_write_string(msgs[index] + length + 1, STDOUT_FILENO);
 			return (EXIT_SUCCESS);
 		}
+		
+	}
 
 	errno = EINVAL;
 	perror(obj->_tokens[1]);
-	return (EXIT_FAILURE);
+	return (1);
 }
 /**
  * _shell_cd - Handles the cd command.

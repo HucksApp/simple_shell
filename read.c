@@ -41,6 +41,10 @@ char *_read_file(char *file_name, int *read_length, ssize_t *file_size)
 	close(file_descriptor);
 	return (buffer);
 }
+
+
+
+
 /**
  * _read_buffer - Reads the content of the file descriptor into a buffer.
  * @obj: Pointer to the shell_type object.

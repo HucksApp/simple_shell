@@ -52,6 +52,7 @@ int _is_eXe(char *path)
 char *_get_path(UNUSED shell_type * obj, char *paths, char *cmd_name)
 {
 	char *path;
+	string_list_type *node;
 	int is_valid = 0, iter = 0, index = 0;
 	char path_delim = ':';
 
@@ -74,6 +75,16 @@ char *_get_path(UNUSED shell_type * obj, char *paths, char *cmd_name)
 			path = _copy_path(paths, index, iter);
 			if (!*path)
 			{
+				if(obj->_aliases != NULL)
+				{
+					node = obj->_aliases;
+					while(node)
+					{
+						printf("--alias------[%s]", node->_string);
+						node = node->next;
+					}
+
+				}
 				/* path is empty  add new path */
 				path = strdup(cmd_name);
 			}

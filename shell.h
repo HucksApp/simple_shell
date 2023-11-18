@@ -88,8 +88,12 @@ char *_strcat_bybyte(char dest[], char source[], int size);
 char *_strcpy_bybyte(char dest[], char source[], int size);
 int _atoi(char *str);
 int _etoi(char *s);
+
 /*ALIAS FUNCTIONS */
 int _patch_alias(shell_type *obj);
+int _alias(shell_type *obj);
+int _set_alias(shell_type *obj, char *str);
+int _unset_alias(shell_type *obj, char *str);
 
 /* NODE FUNCTIONS */
 char *_set_memory(char *ptr, char c, unsigned int size);
@@ -164,6 +168,7 @@ size_t _print_node_strlist(string_list_type *head);
 void _print_error_msg(shell_type *obj, char *error_msg);
 int _print_decimal(unsigned int num, int file_descriptor);
 size_t print_str_list(string_list_type *head);
+int _print_alias(string_list_type *node);
 
 /* PRINT UTILITIES */
 int _count_digits(int num);
