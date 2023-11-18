@@ -111,22 +111,14 @@ int _alias(shell_type *obj)
 		node = obj->_aliases;
 		for(; node; node = node->next)
 		{
-			puts("---------herea-----------");
-			//printf("-------[%s]",node->_string);
+			
 			_print_node(node);
-			/*for (; node->_string;  node = node->next )
-			{
-				_write_string(node->_string ? node->_string : "(nil)", 1);
-				_write_string("\n", 1);
-				
-			}	*/
 		}
 		return (0);
 	}
 	for (index = 1; obj->_tokens[index]; index++)
 	{
 		ptr = _strchr_ptr(obj->_tokens[index], '=');
-		printf("-----alias %s-------", ptr);
 		if (ptr)
 			_set_alias(obj, obj->_tokens[index]);
 		else
