@@ -67,52 +67,35 @@ char *_strtok(char *str, char *delimiters)
 		start_token = str;
 	else if (start_token == NULL)
 		return (NULL);
-
-	/* Jump to the non-delimiter character */
+	
 	while (*start_token != null && _strchr(*start_token, delimiters))
-		start_token++;
-
-	/* If the string has ended, return null*/
+		start_token++; /* Jump to the non-delimiter character */
 	if (*start_token == null)
-	{
+	{ /* If the string has ended, return null*/
 		start_token = NULL;
 		return (start_token);
 	}
-
 	end_token = start_token;
-
 	/* Find the end of the token*/
 	while (*end_token != null && _strchr(*end_token, delimiters) == _FALSE)
-	{
 		end_token++;
-	}
-
-	/* Calculate the length of the token*/
-	len = end_token - start_token;
-
-	/* Allocate memory for the token*/
-	ret = malloc(sizeof(char) * (len + 1));
+	
+	len = end_token - start_token; /* Calculate the length of the token*/
+	ret = malloc(sizeof(char) * (len + 1)); /* Allocate memory for the token*/
 	if (!ret)
 		return (NULL);
-
-	/* Copy the token to the allocated memory*/
-	for (iter = 0; iter < len; iter++)
-	{
-		ret[iter] = *start_token;
-		start_token++;
-	}
+	for (iter = 0; iter < len; iter++, start_token++) 
+		ret[iter] = *start_token; /* Copy the token to the allocated memory*/
 	ret[iter] = null; /* Insert a null terminator at the end of the token*/
-	/* Update start_token to the next position*/
+	
 	if (*end_token == null)
-	{
+		/* Update start_token to the next position*/
 		start_token = NULL;
-	}
 	else
 	{
 		*end_token = null;
 		start_token = end_token + 1;
 	}
-	/*free ret after using*/
 	return (ret);
 }
 /**

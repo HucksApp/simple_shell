@@ -47,18 +47,13 @@ char **_node_to_stringlist(string_list_type *head)
 
 	if (!head)
 		return (NULL);
-
 	current_node = head;
 	str_list_len = _node_length(current_node);
-
 	if (!str_list_len)
 		return (NULL);
-
 	str_list = malloc(sizeof(char *) * (str_list_len + 1));
-
 	if (!str_list)
 		return (NULL);
-
 	for (iter = 0; current_node; iter++, current_node = current_node->next)
 	{
 		str_list[iter] = strdup(current_node->_string);
@@ -68,9 +63,7 @@ char **_node_to_stringlist(string_list_type *head)
 			return (NULL);
 		}
 	}
-
-	/*terminate the string list*/
-	str_list[iter] = NULL;
+	str_list[iter] = NULL; /*terminate the string list*/
 	return (str_list);
 }
 /**
