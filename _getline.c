@@ -32,10 +32,10 @@ char *_strchrt(char *s, char c)
 
 
 /**
- * input_buf - buffers chained commands
- * @info: parameter struct
- * @buf: address of buffer
- * @len: address of len var
+ * _update_buffer - buffers chained commands
+ * @obj: shell obj
+ * @buffer: address of buffer
+ * @length: address of len value
  *
  * Return: bytes read
  */
@@ -47,7 +47,6 @@ ssize_t _update_buffer(shell_type *obj, char **buffer, size_t *length)
 
 	if (!*length) /* if nothing left in the buffer, fill it */
 	{
-		/*bfree((void **)info->cmd_buf);*/
 		free(*buffer);
 		*buffer = NULL;
 		signal(SIGINT, signal_handler);
@@ -74,39 +73,38 @@ ssize_t _update_buffer(shell_type *obj, char **buffer, size_t *length)
 }
 
 /**
- * get_input - gets a line minus the newline
- * @info: parameter struct
- *
+ * _getinput - gets a line minus the newline
+ * @obj: parameter struct
  * Return: bytes read
  */
 ssize_t _getinput(shell_type *obj)
 {
-	static char *buf; /* the ';' command chain buffer */
-	static size_t i, j, len;
-	ssize_t r = 0;
+	static char *buffer; /* the ';' command chain buffer */
+	static size_t index, iter, len;
+	ssize_t read_line = 0;
 	char **buf_p = &(obj->_input_args), *p;
 
 	_write_char_to_stdeout(BUFFER_FLUSH, STDOUT_FILENO);
-	r = _update_buffer(obj, &buf, &len);
-	if (r == -1) /* EOF */
+	read_line = _update_buffer(obj, &buffer, &len);
+	if (read_line == -1) /* EOF */
 		return (-1);
 	if (len) 
 	{
-		j = i;		 
-		p = buf + i; 
+		iter = index;		 
+		p = buffer + index; 
 
-		_next_linkedstream(obj, buf, i, len, &j);
-		while (j < len) /* iterate to semicolon or end */
+		_next_linkedstream(obj, buffer, index, len, &iter);
+		while (iter < len) /* iterate to semicolon or end */
 		{
-			if (_is_linked_stream(obj, buf, &j))
+			if (_is_linked_stream(obj, buffer, &iter))
 				break;
-			j++;
+			iter++;
 		}
 
-		i = j + 1;	  /* increment past nulled ';'' */
-		if (i >= len) /* reached end of buffer? */
+		index = iter + 1;	  /* increment past nulled ';'' */
+		if (index >= len) /* reached end of buffer? */
 		{
-			i = len = 0; /* reset position and length */
+			index = len = 0; /* reset position and length */
 			obj->_chain_stream_type = CMD_NUL;
 		}
 
@@ -114,17 +112,17 @@ ssize_t _getinput(shell_type *obj)
 		return (str_len(p)); /* return length of current command */
 	}
 
-	*buf_p = buf; /* else not a chain, pass back buffer from _getline() */
-	return (r);	  /* return length of buffer from _getline() */
+	*buf_p = buffer; 
+	return (read_line);
 }
 
 
 
 /**
  * _getline - gets the next line of input from STDIN
- * @info: st
- * @ptr: address of pointer to buffer, preallocated or NULL
- * @length: size of preallocated ptr buffer if not NULL
+ * @obj:  shell obj
+ * @ptr: address of pointer to buffer
+ * @length: size of preallocated ptr buffer 
  *
  * Return: s
  */

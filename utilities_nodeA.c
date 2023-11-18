@@ -11,7 +11,6 @@ string_list_type *_create_node(void)
 	string_list_type *new_node;
 
 	new_node = malloc(sizeof(string_list_type));
-
 	if (!new_node)
 		return (NULL);
 	/* init all memory bytes to null */
@@ -67,24 +66,16 @@ string_list_type *_append_node(string_list_type **head, char *str, int num)
 		last_node->_num = num;
 		if (str)
 			last_node->_string = _strdupl(str);
-
 		last_node->next = NULL;
-
 		if (*head == NULL)
-		{
-			/* if the link list is empty , make last node as head*/
+		{	/* if the link list is empty , make last node as head*/
 			*head = last_node;
 			return (last_node);
 		}
 		end_node = *head;
-
 		while (end_node->next != NULL)
-			/* find the last node attached */
-			end_node = end_node->next;
-
-		/* point the end node to the last node */
-		end_node->next = last_node;
-
+			end_node = end_node->next; /* find the last node attached */
+		end_node->next = last_node; 	/* point the end node to the last node */
 		return (last_node);
 	}
 	return (NULL);
@@ -104,43 +95,28 @@ int _remove_node_at(string_list_type **head, unsigned int position)
 	if (!head || !(*head))
 		return (_FALSE);
 	temp_node = *head;
-
 	if (position == 0)
 	{
-		/*if position is head advance the head */
-		*head = (*head)->next;
-
-		/* temp node is the removed node(head) */
-		_free_strlistnode(temp_node);
-
+		*head = (*head)->next; /*if position is head advance the head */
+		_free_strlistnode(temp_node); /* temp node is the removed node(head) */
 		return (_TRUE);
 	}
 	while (temp_node->next != NULL)
 	{
-
-		/*while not second to last */
 		if (index == position)
-		{
+		{ /*while not second to last */
 			del_node = temp_node->next;
 			temp_node->next = temp_node->next->next;
-
 			_free_strlistnode(del_node);
-
 			return (_TRUE);
 		}
-		/*record the current node and advance*/
-		prev_node = temp_node;
+		prev_node = temp_node; /*record the current node and advance*/
 		temp_node = temp_node->next;
 		index++;
 	}
-
-	/* temp_node is the is last node */
-	if (index == position)
-	{
-		/*if position is last node*/
-		/* terminate link to last node*/
-		prev_node->next = NULL;
-
+	if (index == position) /* temp_node is the is last node */
+	{	/*if position is last node*/
+		prev_node->next = NULL; /* terminate link to last node*/
 		_free_strlistnode(temp_node);
 		return (_TRUE);
 	}

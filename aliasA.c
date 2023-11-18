@@ -1,15 +1,18 @@
 #include "shell.h"
 
 
+/**
+ * patch_alias - updates alias
+ * @obj: shell object
+ * @str: the string alias
+ * Return: TRUE 1 or FALSE 0
+ */
 
 int _patch_alias(shell_type *obj)
 {
     int iter,assign_index;
     char *ch;
     string_list_type *node;
-
-    
-   
     for(iter = 0; iter < MAX_ALIAS; iter++)
     {   
         node = _match_node_str(obj->_aliases, obj->_tokens[0], '=');
@@ -42,7 +45,7 @@ int _patch_alias(shell_type *obj)
 
 /**
  * unset_alias - sets alias to string
- * @info: parameter struct
+ * @obj: shell object
  * @str: the string alias
  *
  * Return: Always 0 on success, 1 on error
@@ -63,9 +66,11 @@ int _unset_alias(shell_type *obj, char *str)
 	return (ret);
 }
 
+
+
 /**
- * set_alias - sets alias to string
- * @info: parameter struct
+ * _set_alias - sets alias to string
+ * @obj: shell object
  * @str: the string alias
  *
  * Return: Always 0 on success, 1 on error
@@ -91,13 +96,9 @@ int _set_alias(shell_type *obj, char *str)
 
 
 
-
-
-
 /**
- * _myalias - mimics the alias builtin (man alias)
- * @info: Structure containing potential arguments. Used to maintain
- *          constant function prototype.
+ * _alias - mimics the alias builtin (man alias)
+ * @obj: shell object
  *  Return: Always 0
  */
 int _alias(shell_type *obj)
@@ -110,10 +111,7 @@ int _alias(shell_type *obj)
 	{
 		node = obj->_aliases;
 		for(; node; node = node->next)
-		{
-			
 			_print_node(node);
-		}
 		return (0);
 	}
 	for (index = 1; obj->_tokens[index]; index++)
