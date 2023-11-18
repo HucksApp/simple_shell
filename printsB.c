@@ -2,31 +2,14 @@
 
 
 
-/**
- * print_alias - prints an alias string
- * @node: the alias node
- *
- * Return: Always 0 on success, 1 on error
- */
-int _print_alias(string_list_type *node)
+
+
+
+size_t _print_node(string_list_type *head)
 {
-	char *p = NULL, *a = NULL;
-
-	if (node)
-	{
-		p = _strchr_ptr(node->_string, '=');
-		
-		for (a = node->_string; a <= p; a++)
-		{
-			
-			_write_char_to_stdeout(*a, STDOUT_FILENO);
-		}
-			
-		_write_char_to_stdeout('\'',STDOUT_FILENO);
-		_write_string(p + 1, STDOUT_FILENO);
-		_write_string("'\n'", STDOUT_FILENO);
-		return (0);
-	}
-	return (1);
+	size_t index= 1;
+	string_list_type *node = head;
+		_write_string(node->_string ? node->_string : "(nil)", 1);
+		_write_string("\n", 1);
+	return (index);
 }
-

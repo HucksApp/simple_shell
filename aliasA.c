@@ -86,6 +86,14 @@ int _set_alias(shell_type *obj, char *str)
 }
 
 
+
+
+
+
+
+
+
+
 /**
  * _myalias - mimics the alias builtin (man alias)
  * @info: Structure containing potential arguments. Used to maintain
@@ -103,10 +111,16 @@ int _alias(shell_type *obj)
 		node = obj->_aliases;
 		for(; node; node = node->next)
 		{
-			
-			_print_alias(node);	
+			puts("---------herea-----------");
+			//printf("-------[%s]",node->_string);
+			_print_node(node);
+			/*for (; node->_string;  node = node->next )
+			{
+				_write_string(node->_string ? node->_string : "(nil)", 1);
+				_write_string("\n", 1);
+				
+			}	*/
 		}
-		printf("-------[%s]",node->_string);
 		return (0);
 	}
 	for (index = 1; obj->_tokens[index]; index++)
@@ -116,7 +130,10 @@ int _alias(shell_type *obj)
 		if (ptr)
 			_set_alias(obj, obj->_tokens[index]);
 		else
-			_print_alias(_match_node_str(obj->_aliases, obj->_tokens[index], '='));
+			_print_node(_match_node_str(obj->_aliases, obj->_tokens[index], '='));
 	}
 	return (0);
 }
+
+
+

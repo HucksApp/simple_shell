@@ -168,7 +168,7 @@ size_t _print_node_strlist(string_list_type *head);
 void _print_error_msg(shell_type *obj, char *error_msg);
 int _print_decimal(unsigned int num, int file_descriptor);
 size_t print_str_list(string_list_type *head);
-int _print_alias(string_list_type *node);
+size_t _print_node(string_list_type *head);
 
 /* PRINT UTILITIES */
 int _count_digits(int num);
