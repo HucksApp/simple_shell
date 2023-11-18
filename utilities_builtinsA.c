@@ -17,7 +17,7 @@ int (*_builtins_cmds_fn(char *cmd))(shell_type *obj)
 		{"setenv", _shell_setenv},
 		{"unsetenv", _shell_unsetenv},
 		{"cd", _shell_cd},
-		{"alias", _alias},
+		/*{"alias", _alias},*/
 		{NULL, NULL}};
 	iter = 0;
 	length = str_len(cmd);
