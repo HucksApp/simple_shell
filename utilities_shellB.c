@@ -212,7 +212,7 @@ void _execute(shell_type *obj)
 		ret = execve(obj->_path, obj->_tokens, _get_envs(obj));
 		if (ret == SYS_ERROR)
 		{
-			_garbage_collection(obj, 1);
+			_garbage_collection(obj, _TRUE);
 			perror(obj->_file_name);
 			if (errno == EACCES)
 				exit(PERMISSION_DENIED);

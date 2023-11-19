@@ -35,11 +35,11 @@ int _start_process(shell_type *obj, char **av)
 
 			_write_char_to_stdeout('\n', 1);
 		}
-		_garbage_collection(obj, 0);
+		_garbage_collection(obj, _FALSE);
 	}
 	_write_history(obj);
 
-	_garbage_collection(obj, 1);
+	_garbage_collection(obj, _TRUE);
 	if (!_is_interactive(obj) && obj->_status)
 		exit(obj->_status);
 	if (builtin_ret == EXIT_SIG)
