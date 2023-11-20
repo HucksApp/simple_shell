@@ -43,7 +43,6 @@ int _shell_help(shell_type *obj)
 	msgs[5] = HELP_CD_MSG;
 	msgs[6] = NULL;
 
-	
 	if (obj->_tokens[1] == NULL)
 	{
 
@@ -56,7 +55,6 @@ int _shell_help(shell_type *obj)
 		perror(obj->_tokens[1]);
 		return (EXIT_FAILURE);
 	}
-	
 
 	length = str_len(obj->_tokens[1]);
 	for (index = 0; msgs[index] != NULL; index++)
@@ -67,7 +65,6 @@ int _shell_help(shell_type *obj)
 			_write_string(msgs[index] + length + 1, STDOUT_FILENO);
 			return (EXIT_SUCCESS);
 		}
-		
 	}
 
 	errno = EINVAL;
@@ -82,7 +79,7 @@ int _shell_help(shell_type *obj)
 
 int _shell_cd(shell_type *obj)
 {
-	char *dir, buffer[1024], *s = getcwd(buffer, 1024);
+	char *dir = NULL, buffer[1024], *s = getcwd(buffer, 1024);
 	int chdir_ret;
 
 	if (!s)
@@ -91,22 +88,28 @@ int _shell_cd(shell_type *obj)
 	{
 		dir = _shell_getenv(obj, "HOME=");
 		if (!dir)
+		{
+			free(dir);
 			chdir_ret = chdir((dir = _shell_getenv(obj, "PWD=")) ? dir : "/");
+		}
 		else
+		{
 			chdir_ret = chdir(dir);
+		}
 	}
 	else if (_strcmpr(obj->_tokens[1], "-", 1))
 	{
-		if (!_shell_getenv(obj, "OLDPWD="))
+		dir = _shell_getenv(obj, "OLDPWD=");
+		if (!dir)
 		{
 			_write_string(s, STDOUT_FILENO);
 			_write_char_to_stdeout('\n', STDOUT_FILENO);
 			return (1);
 		}
-		_write_string(_shell_getenv(obj, "OLDPWD="), 1);
+		_write_string(dir, 1);
 		_write_char_to_stdeout('\n', 1);
-		chdir_ret =
-			chdir((dir = _shell_getenv(obj, "OLDPWD=")) ? dir : "/");
+		free(dir);
+		chdir_ret = chdir((dir = _shell_getenv(obj, "OLDPWD=")) ? dir : "/");
 	}
 	else
 		chdir_ret = chdir(obj->_tokens[1]);
@@ -118,8 +121,13 @@ int _shell_cd(shell_type *obj)
 	}
 	else
 	{
-		_set_env(obj, "OLDPWD", _shell_getenv(obj, "PWD="));
+		if (dir)
+			free(dir);
+		dir = _shell_getenv(obj, "PWD=");
+		_set_env(obj, "OLDPWD", dir);
 		_set_env(obj, "PWD", getcwd(buffer, 1024));
 	}
+	if (dir)
+		free(dir);
 	return (0);
 }
