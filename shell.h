@@ -204,6 +204,11 @@ char *_copy_path(char *path, int start, int stop);
 int _is_eXe(char *path);
 char *_get_path(UNUSED shell_type *obj, char *paths, char *cmd_name);
 
-
+/*refactor functions*/
+void printCdErrorMessage(shell_type *obj);
+void handleEmptyPath(shell_type *obj);
+void addPathToPath(char *path, char *cmdName);
+void handleNonexistentPath(shell_type *obj, char *temp_path, char *file_name);
+int countNonDelimiters(shell_type *obj, char *delim);
 
 #endif

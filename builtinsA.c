@@ -111,15 +111,21 @@ int _shell_cd(shell_type *obj)
 	else
 		chdir_ret = chdir(obj->_tokens[1]);
 	if (chdir_ret == -1)
-	{
-		_print_error_msg(obj, "can't cd to ");
-		_write_string(obj->_tokens[1], STDERR_FILENO);
-		_write_string("\n", STDERR_FILENO);
-	}
+		printCdErrorMessage(obj);
 	getcwd(buffer, 1024);
 	_set_env(obj, "PWD", buffer);
 	if (dir)
 		free(dir);
 	free(prev_old_pwd);
 	return (0);
+}
+/**
+ * printCdErrorMessage - Prints an error message when changing directory fails.
+ * @obj: Pointer to the shell_type object.
+ */
+void printCdErrorMessage(shell_type *obj)
+{
+	_print_error_msg(obj, "can't cd to ");
+	_write_string(obj->_tokens[1], STDERR_FILENO);
+	_write_string("\n", STDERR_FILENO);
 }
