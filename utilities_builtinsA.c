@@ -6,7 +6,7 @@
  * Return: Function pointer to the corresponding built-in function
  *  or NULL if not found.
  */
-int (*_builtins_cmds_fn(char *cmd))(shell_type *obj)
+int (*_builtins_cmds_fn(char *cmd))(shell_type * obj)
 {
 	int iter, length;
 	builtins_type builtins_cmds[] = {

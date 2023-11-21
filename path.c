@@ -75,15 +75,14 @@ char *_get_path(UNUSED shell_type * obj, char *paths, char *cmd_name)
 			path = _copy_path(paths, index, iter);
 			if (!*path)
 			{
-				if(obj->_aliases != NULL)
+				if (obj->_aliases != NULL)
 				{
 					node = obj->_aliases;
-					while(node)
+					while (node)
 					{
 						printf("--alias------[%s]", node->_string);
 						node = node->next;
 					}
-
 				}
 				/* path is empty  add new path */
 				path = strdup(cmd_name);

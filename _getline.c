@@ -1,35 +1,20 @@
 #include "shell.h"
 
-
-
-
-
-
-
 /**
- **_strchr - locates a character in a string
+ **_strchrt - locates a character in a string
  *@s: the string to be parsed
  *@c: the character to look for
  *Return: (s) a pointer to the memory area s
  */
 char *_strchrt(char *s, char c)
 {
-	do
-	{
+	do {
 		if (*s == c)
 			return (s);
 	} while (*s++ != '\0');
 
 	return (NULL);
 }
-
-
-
-
-
-
-
-
 
 /**
  * _update_buffer - buffers chained commands
@@ -79,90 +64,86 @@ ssize_t _update_buffer(shell_type *obj, char **buffer, size_t *length)
  */
 ssize_t _getinput(shell_type *obj)
 {
-	static char *buffer; /* the ';' command chain buffer */
+	static char *buffer;
 	static size_t index, iter, len;
 	ssize_t read_line = 0;
 	char **buf_p = &(obj->_input_args), *p;
 
 	_write_char_to_stdeout(BUFFER_FLUSH, STDOUT_FILENO);
 	read_line = _update_buffer(obj, &buffer, &len);
-	if (read_line == -1) /* EOF */
+	if (read_line == -1)
 		return (-1);
-	if (len) 
+	if (len)
 	{
-		iter = index;		 
-		p = buffer + index; 
+		iter = index;
+		p = buffer + index;
 
 		_next_linkedstream(obj, buffer, index, len, &iter);
-		while (iter < len) /* iterate to semicolon or end */
+		while (iter < len)
 		{
 			if (_is_linked_stream(obj, buffer, &iter))
 				break;
 			iter++;
 		}
 
-		index = iter + 1;	  /* increment past nulled ';'' */
-		if (index >= len) /* reached end of buffer? */
+		index = iter + 1;
+		if (index >= len)
 		{
-			index = len = 0; /* reset position and length */
+			index = len = 0;
 			obj->_chain_stream_type = CMD_NUL;
 		}
 
-		*buf_p = p;			 /* pass back pointer to current command position */
-		return (str_len(p)); /* return length of current command */
+		*buf_p = p;
+		return (str_len(p));
 	}
 
-	*buf_p = buffer; 
+	*buf_p = buffer;
 	return (read_line);
 }
 
-
-
 /**
- * _getline - gets the next line of input from STDIN
+ * _getline - gets the next line of input from standard input
  * @obj:  shell obj
  * @ptr: address of pointer to buffer
- * @length: size of preallocated ptr buffer 
+ * @length: size of preallocated ptr buffer
  *
  * Return: s
  */
 int _getline(shell_type *obj, char **ptr, size_t *length)
 {
 	static char buf[BUFFER_SIZE];
-	static size_t i, len;
-	size_t k;
+	static size_t iter, len;
+	size_t size;
 	ssize_t r = 0, s = 0;
-	char *p = NULL, *new_p = NULL, *c;
+	char *p = NULL, *pointer_n = NULL, *c;
 
 	p = *ptr;
 	if (p && length)
 		s = *length;
-	if (i == len)
-		i = len = 0;
+	if (iter == len)
+		iter = len = 0;
 
 	r = _read_buffer(obj, buf, &len);
 	if (r == -1 || (r == 0 && len == 0))
 		return (-1);
 
-	c = _strchrt(buf + i, '\n');
-	k = c ? 1 + (unsigned int)(c - buf) : len;
-	new_p = _realloc(p, s, s ? s + k : k + 1);
-	if (!new_p) /* MALLOC FAILURE! */
+	c = _strchrt(buf + iter, '\n');
+	size = c ? 1 + (unsigned int)(c - buf) : len;
+	pointer_n = _realloc(p, s, s ? s + size : size + 1);
+	if (!pointer_n)
 		return (p ? free(p), -1 : -1);
 
 	if (s)
-		_strcat_bybyte(new_p, buf + i, k - i);
+		_strcat_bybyte(pointer_n, buf + iter, size - iter);
 	else
-		_strcpy_bybyte(new_p, buf + i, k - i + 1);
+		_strcpy_bybyte(pointer_n, buf + iter, size - iter + 1);
 
-	s += k - i;
-	i = k;
-	p = new_p;
+	s += size - iter;
+	iter = size;
+	p = pointer_n;
 
 	if (length)
 		*length = s;
 	*ptr = p;
 	return (s);
 }
-
-
