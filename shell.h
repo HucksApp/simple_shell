@@ -19,13 +19,18 @@
 #include "macros.h"
 
 /*
-enum node_print_type
-{
-	ENV,
-} ;
-*/
+ *enum node_print_type
+ *{
+ *	ENV,
+ *} ;
+ */
 extern char **environ;
-
+/**
+ * struct string_list_class - Node structure for a linked list of strings.
+ * @_num: Numerical index associated with the string.
+ * @_string: The string value.
+ * @next: Pointer to the next node in the linked list.
+ */
 typedef struct string_list_class
 {
 	int _num;
@@ -35,6 +40,28 @@ typedef struct string_list_class
 } string_list_type;
 
 /* shell program data structure */
+
+/**
+ * struct shell_class - Data structure for the shell program.
+ * @_tokens: Array of strings containing command tokens.
+ * @_env: Array of strings containing environment variables.
+ * @_input_args: String containing the input command.
+ * @_path: String containing the path of the current command.
+ * @_file_name: String containing the name of the shell program file.
+ * @_cmd_chain: Array of strings representing a command chain.
+ * @_read_count: Count of the number of commands read.
+ * @_read_flag: Flag indicating whether a command has been read.
+ * @_aliases: Linked list of alias strings.
+ * @_envs: Linked list of environment variable strings.
+ * @_history: Linked list of command history strings.
+ * @_history_count: Count of the number of commands in history.
+ * @_token_count: Count of the number of tokens in the current command.
+ * @_file_descriptor: File descriptor for the shell program.
+ * @_status: Status indicator for the shell program.
+ * @_env_changed: Flag indicating whether the environment has changed.
+ * @_error_num: Error number associated with the last operation.
+ * @_chain_stream_type: Type of command stream (CMD_NUL, CMD_AND, CMD_OR).
+ */
 typedef struct shell_class
 {
 
@@ -60,6 +87,12 @@ typedef struct shell_class
 } shell_type;
 
 /* built in cmds program structure */
+
+/**
+ * struct builtins_class - Structure defining built-in commands.
+ * @_cmd: String representing the built-in command.
+ * @_fn: Function pointer to the corresponding command function.
+ */
 typedef struct builtins_class
 {
 	char *_cmd;
