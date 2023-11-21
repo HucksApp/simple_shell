@@ -55,30 +55,35 @@ int _set_env(shell_type *obj, char *var, char *var_value)
 {
 	string_list_type *envs_head = NULL;
 	char *buffer_tmp = NULL;
+	char *tmp;
 
 	if (!var || !var_value)
 		return (_FALSE);
 
-	buffer_tmp = malloc(sizeof(char) * (str_len(var) + str_len(var_value) + 2));
+	buffer_tmp = malloc(sizeof(char) * (strlen(var) + strlen(var_value) + 2));
 	if (!buffer_tmp)
+	{
 		return (_FALSE);
-	_strcpy(buffer_tmp, var);
-	_strcpy(buffer_tmp, "=");
-	_strcpy(buffer_tmp, var_value);
+	}
+	strcpy(buffer_tmp, var);
+	strcat(buffer_tmp, "=");
+	strcat(buffer_tmp, var_value);
 	envs_head = obj->_envs;
-
+	tmp = strdup(buffer_tmp);
 	for (; envs_head != NULL; envs_head = envs_head->next)
-
 		if (_match_env(envs_head->_string, var))
 		{
 			/*env match found*/
 			free(envs_head->_string);
-			envs_head->_string = buffer_tmp;
+			envs_head->_string = strdup(buffer_tmp);
 			obj->_env_changed = _TRUE;
+			free(buffer_tmp);
+			free(tmp);
 			return (_TRUE);
 		}
-	_append_node(&(obj->_envs), buffer_tmp, 0);
+	_append_node(&(obj->_envs), tmp, 0);
 	free(buffer_tmp);
+	free(tmp);
 	obj->_env_changed = _TRUE;
 	return (_TRUE);
 }
@@ -92,8 +97,13 @@ int _set_env(shell_type *obj, char *var, char *var_value)
 int _match_env(char *envs_path, char *env_new)
 {
 	int is_same;
-	int len_to_compare = str_len(env_new) - 1;
+	int len_to_compare;
 	char can_assign = '=';
+
+	if (env_new[str_len(env_new) - 1] == can_assign)
+		len_to_compare = str_len(env_new) - 1;
+	else
+		len_to_compare = str_len(env_new);
 
 	is_same = _strcmpr(envs_path, env_new, len_to_compare);
 	if (is_same && envs_path[len_to_compare] == can_assign)

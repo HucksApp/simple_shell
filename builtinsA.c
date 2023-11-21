@@ -81,35 +81,32 @@ int _shell_cd(shell_type *obj)
 {
 	char *dir = NULL, buffer[1024], *s = getcwd(buffer, 1024);
 	int chdir_ret;
+	char *prev_old_pwd;
 
 	if (!s)
 		_write_string("Error get pwd\n", 1);
+
+	prev_old_pwd = _shell_getenv(obj, "OLDPWD=");
+	_set_env(obj, "OLDPWD", buffer);
 	if (!obj->_tokens[1])
 	{
 		dir = _shell_getenv(obj, "HOME=");
 		if (!dir)
-		{
-			free(dir);
-			chdir_ret = chdir((dir = _shell_getenv(obj, "PWD=")) ? dir : "/");
-		}
+			chdir_ret = chdir(dir ? dir : "/");
 		else
-		{
 			chdir_ret = chdir(dir);
-		}
 	}
-	else if (_strcmpr(obj->_tokens[1], "-", 1))
+	else if (obj->_tokens[1][0] == '-')
 	{
-		dir = _shell_getenv(obj, "OLDPWD=");
-		if (!dir)
+		if (!prev_old_pwd)
 		{
 			_write_string(s, STDOUT_FILENO);
 			_write_char_to_stdeout('\n', STDOUT_FILENO);
 			return (1);
 		}
-		_write_string(dir, 1);
+		_write_string(prev_old_pwd, 1);
 		_write_char_to_stdeout('\n', 1);
-		free(dir);
-		chdir_ret = chdir((dir = _shell_getenv(obj, "OLDPWD=")) ? dir : "/");
+		chdir_ret = chdir(prev_old_pwd);
 	}
 	else
 		chdir_ret = chdir(obj->_tokens[1]);
@@ -119,15 +116,10 @@ int _shell_cd(shell_type *obj)
 		_write_string(obj->_tokens[1], STDERR_FILENO);
 		_write_string("\n", STDERR_FILENO);
 	}
-	else
-	{
-		if (dir)
-			free(dir);
-		dir = _shell_getenv(obj, "PWD=");
-		_set_env(obj, "OLDPWD", dir);
-		_set_env(obj, "PWD", getcwd(buffer, 1024));
-	}
+	getcwd(buffer, 1024);
+	_set_env(obj, "PWD", buffer);
 	if (dir)
 		free(dir);
+	free(prev_old_pwd);
 	return (0);
 }
