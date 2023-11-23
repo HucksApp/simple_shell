@@ -132,7 +132,6 @@ void _execute(shell_type *obj)
 	if (child_process_id == 0)
 	{
 		/* inside the child process */
-		/* print_str_list(_get_envs(obj));*/
 		ret = execve(obj->_path, obj->_tokens, _get_envs(obj));
 		if (ret == SYS_ERROR)
 		{
