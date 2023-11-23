@@ -113,79 +113,6 @@ void _next_linkedstream(shell_type *obj, char *buffer,
 
 	*position = curr_pos;
 }
-/**
- * _run_cmd - runs the command specified in the shell_type object
- * @obj: pointer to the shell_type object
- */
-
-void _run_cmd(shell_type *obj)
-{
-	char *path = NULL;
-	int iter, index, is_mode;
-	char *temp_path;
-	char *file_name;
-
-	char *delim = " \t\n";
-
-	obj->_path = obj->_tokens[0];
-
-	if (obj->_read_flag == _TRUE)
-	{
-		obj->_read_count++;
-		obj->_read_flag = _FALSE;
-	}
-
-	for (index = 0, iter = 0; obj->_input_args[index]; index++)
-
-		if (!_strchr(obj->_input_args[index], delim))
-			/* char is not a delimeter */
-			iter++;
-
-	if (!iter)
-		return;
-	temp_path = _shell_getenv(obj, "PATH=");
-	path = _get_path(obj, temp_path, obj->_tokens[0]);
-	if (path)
-	{
-		obj->_path = path;
-
-		_execute(obj);
-	}
-	else
-	{
-		is_mode = ((_is_interactive(obj) || temp_path) ||
-				   obj->_tokens[0][0] == '/') &&
-						  _is_eXe(obj->_tokens[0])
-					  ? (_TRUE)
-					  : (_FALSE);
-
-		if (is_mode)
-		{
-			_execute(obj);
-		}
-
-		else if (*(obj->_input_args) != '\n')
-		{
-			obj->_status = FILE_NOT_FOUND;
-			errno = ENOENT;
-			if (temp_path == NULL)
-				temp_path = _shell_getenv(obj, "PATH1=");
-			if (temp_path == NULL)
-			{
-				file_name = basename(obj->_file_name);
-				fprintf(stderr, "./%s: %d: %s: not found\n",
-						file_name, obj->_read_count, obj->_tokens[0]);
-			}
-			else
-			{
-				fprintf(stderr, "%s: %d: %s: not found\n",
-						obj->_file_name, obj->_read_count, obj->_tokens[0]);
-			}
-		}
-	}
-	if (temp_path)
-		free(temp_path);
-}
 
 /**
  * _execute - executes the specified command in a child process
@@ -205,10 +132,7 @@ void _execute(shell_type *obj)
 	if (child_process_id == 0)
 	{
 		/* inside the child process */
-
 		/* print_str_list(_get_envs(obj));*/
-		/*_print_node_strlist(obj->_tokens);START HEREEEE*/
-
 		ret = execve(obj->_path, obj->_tokens, _get_envs(obj));
 		if (ret == SYS_ERROR)
 		{
@@ -221,18 +145,13 @@ void _execute(shell_type *obj)
 	}
 	else
 	{
-
-		/* inside the parent process */
 		wait(&(obj->_status));
-
 		if (WIFEXITED(obj->_status))
 		{
 			/* child process is finished normally with status */
 			obj->_status = WEXITSTATUS(obj->_status);
 			if (obj->_status == PERMISSION_DENIED)
-			{
 				perror(obj->_file_name);
-			}
 		}
 		else if (WIFSIGNALED(obj->_status))
 		{

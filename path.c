@@ -52,14 +52,11 @@ int _is_eXe(char *path)
 char *_get_path(UNUSED shell_type * obj, char *paths, char *cmd_name)
 {
 	char *path;
-	string_list_type *node;
 	int is_valid = 0, iter = 0, index = 0;
 	char path_delim = ':';
 
 	if (!paths)
-	{
 		return (NULL);
-	}
 	is_valid = ((str_len(cmd_name) > 2) && _match_str_path(cmd_name, "./"))
 				   ? (_TRUE)
 				   : (_FALSE);
@@ -75,24 +72,13 @@ char *_get_path(UNUSED shell_type * obj, char *paths, char *cmd_name)
 			path = _copy_path(paths, index, iter);
 			if (!*path)
 			{
-				if(obj->_aliases != NULL)
-				{
-					node = obj->_aliases;
-					while(node)
-					{
-						printf("--alias------[%s]", node->_string);
-						node = node->next;
-					}
-
-				}
+				handleEmptyPath(obj);
 				/* path is empty  add new path */
 				path = strdup(cmd_name);
 			}
 			else
 			{
-				/* add new path to path */
-				_strconcat(path, "/");
-				_strconcat(path, cmd_name);
+				addPathToPath(path, cmd_name);
 			}
 			if (_is_eXe(path))
 				return (path);
@@ -102,4 +88,32 @@ char *_get_path(UNUSED shell_type * obj, char *paths, char *cmd_name)
 		}
 	}
 	return (NULL);
+}
+/**
+ * handleEmptyPath - Handles printing aliases when the PATH is empty.
+ * @obj: Pointer to the shell_type object.
+ */
+void handleEmptyPath(shell_type *obj)
+{
+	string_list_type *aliases = obj->_aliases;
+
+	if (obj->_aliases != NULL)
+	{
+		while (aliases)
+		{
+			printf("--alias------[%s]", aliases->_string);
+			aliases = aliases->next;
+		}
+	}
+}
+
+/**
+ * addPathToPath - Appends a command name to a given path.
+ * @path: The path to which the command name is added.
+ * @cmdName: The command name to append to the path.
+ */
+void addPathToPath(char *path, char *cmdName)
+{
+	_strconcat(path, "/");
+	_strconcat(path, cmdName);
 }

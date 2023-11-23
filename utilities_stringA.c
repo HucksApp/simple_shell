@@ -50,10 +50,10 @@ char **_tokenize(char *str, char *d)
 }
 
 /**
- * _strtok - divides strings into words using specified delimiters
+ * _strtok - divides multiple strings into small tokens using delims
  * @str: string to convert
- * @delimiters: word separators array
- * Return: pointer to found position or NULL
+ * @delimiters: delimiters
+ * Return: pointer to result string or NULL
  */
 char *_strtok(char *str, char *delimiters)
 {
@@ -67,29 +67,28 @@ char *_strtok(char *str, char *delimiters)
 		start_token = str;
 	else if (start_token == NULL)
 		return (NULL);
-	
+
 	while (*start_token != null && _strchr(*start_token, delimiters))
-		start_token++; /* Jump to the non-delimiter character */
+		start_token++;
 	if (*start_token == null)
-	{ /* If the string has ended, return null*/
+	{
 		start_token = NULL;
 		return (start_token);
 	}
 	end_token = start_token;
-	/* Find the end of the token*/
+
 	while (*end_token != null && _strchr(*end_token, delimiters) == _FALSE)
 		end_token++;
-	
-	len = end_token - start_token; /* Calculate the length of the token*/
-	ret = malloc(sizeof(char) * (len + 1)); /* Allocate memory for the token*/
+
+	len = end_token - start_token;
+	ret = malloc(sizeof(char) * (len + 1));
 	if (!ret)
 		return (NULL);
-	for (iter = 0; iter < len; iter++, start_token++) 
-		ret[iter] = *start_token; /* Copy the token to the allocated memory*/
-	ret[iter] = null; /* Insert a null terminator at the end of the token*/
-	
+	for (iter = 0; iter < len; iter++, start_token++)
+		ret[iter] = *start_token;
+	ret[iter] = null;
+
 	if (*end_token == null)
-		/* Update start_token to the next position*/
 		start_token = NULL;
 	else
 	{

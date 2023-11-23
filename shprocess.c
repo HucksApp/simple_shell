@@ -38,7 +38,6 @@ int _start_process(shell_type *obj, char **av)
 		_garbage_collection(obj, _FALSE);
 	}
 	_write_history(obj);
-
 	_garbage_collection(obj, _TRUE);
 	if (!_is_interactive(obj) && obj->_status)
 		exit(obj->_status);
@@ -48,6 +47,5 @@ int _start_process(shell_type *obj, char **av)
 			exit(obj->_status);
 		exit(obj->_error_num);
 	}
-
 	return (builtin_ret);
 }

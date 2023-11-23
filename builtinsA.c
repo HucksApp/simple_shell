@@ -43,7 +43,6 @@ int _shell_help(shell_type *obj)
 	msgs[5] = HELP_CD_MSG;
 	msgs[6] = NULL;
 
-	
 	if (obj->_tokens[1] == NULL)
 	{
 
@@ -56,7 +55,6 @@ int _shell_help(shell_type *obj)
 		perror(obj->_tokens[1]);
 		return (EXIT_FAILURE);
 	}
-	
 
 	length = str_len(obj->_tokens[1]);
 	for (index = 0; msgs[index] != NULL; index++)
@@ -67,7 +65,6 @@ int _shell_help(shell_type *obj)
 			_write_string(msgs[index] + length + 1, STDOUT_FILENO);
 			return (EXIT_SUCCESS);
 		}
-		
 	}
 
 	errno = EINVAL;
@@ -82,44 +79,53 @@ int _shell_help(shell_type *obj)
 
 int _shell_cd(shell_type *obj)
 {
-	char *dir, buffer[1024], *s = getcwd(buffer, 1024);
+	char *dir = NULL, buffer[1024], *s = getcwd(buffer, 1024);
 	int chdir_ret;
+	char *prev_old_pwd;
 
 	if (!s)
 		_write_string("Error get pwd\n", 1);
+
+	prev_old_pwd = _shell_getenv(obj, "OLDPWD=");
+	_set_env(obj, "OLDPWD", buffer);
 	if (!obj->_tokens[1])
 	{
 		dir = _shell_getenv(obj, "HOME=");
 		if (!dir)
-			chdir_ret = chdir((dir = _shell_getenv(obj, "PWD=")) ? dir : "/");
+			chdir_ret = chdir(dir ? dir : "/");
 		else
 			chdir_ret = chdir(dir);
 	}
-	else if (_strcmpr(obj->_tokens[1], "-", 1))
+	else if (obj->_tokens[1][0] == '-')
 	{
-		if (!_shell_getenv(obj, "OLDPWD="))
+		if (!prev_old_pwd)
 		{
 			_write_string(s, STDOUT_FILENO);
 			_write_char_to_stdeout('\n', STDOUT_FILENO);
 			return (1);
 		}
-		_write_string(_shell_getenv(obj, "OLDPWD="), 1);
+		_write_string(prev_old_pwd, 1);
 		_write_char_to_stdeout('\n', 1);
-		chdir_ret =
-			chdir((dir = _shell_getenv(obj, "OLDPWD=")) ? dir : "/");
+		chdir_ret = chdir(prev_old_pwd);
 	}
 	else
 		chdir_ret = chdir(obj->_tokens[1]);
 	if (chdir_ret == -1)
-	{
-		_print_error_msg(obj, "can't cd to ");
-		_write_string(obj->_tokens[1], STDERR_FILENO);
-		_write_string("\n", STDERR_FILENO);
-	}
-	else
-	{
-		_set_env(obj, "OLDPWD", _shell_getenv(obj, "PWD="));
-		_set_env(obj, "PWD", getcwd(buffer, 1024));
-	}
+		printCdErrorMessage(obj);
+	getcwd(buffer, 1024);
+	_set_env(obj, "PWD", buffer);
+	if (dir)
+		free(dir);
+	free(prev_old_pwd);
 	return (0);
+}
+/**
+ * printCdErrorMessage - Prints an error message when changing directory fails.
+ * @obj: Pointer to the shell_type object.
+ */
+void printCdErrorMessage(shell_type *obj)
+{
+	_print_error_msg(obj, "can't cd to ");
+	_write_string(obj->_tokens[1], STDERR_FILENO);
+	_write_string("\n", STDERR_FILENO);
 }

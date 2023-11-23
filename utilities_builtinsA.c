@@ -6,7 +6,7 @@
  * Return: Function pointer to the corresponding built-in function
  *  or NULL if not found.
  */
-int (*_builtins_cmds_fn(char *cmd))(shell_type *obj)
+int (*_builtins_cmds_fn(char *cmd))(shell_type * obj)
 {
 	int iter, length;
 	builtins_type builtins_cmds[] = {
@@ -17,7 +17,7 @@ int (*_builtins_cmds_fn(char *cmd))(shell_type *obj)
 		{"setenv", _shell_setenv},
 		{"unsetenv", _shell_unsetenv},
 		{"cd", _shell_cd},
-		/*{"alias", _alias},*/
+		{"alias", _alias},
 		{NULL, NULL}};
 	iter = 0;
 	length = str_len(cmd);

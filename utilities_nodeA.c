@@ -20,45 +20,47 @@ string_list_type *_create_node(void)
 
 /**
  * _prepend_node - Add a node to the beginning of a linked list
- * @head: Pointer to the head of the linked list
+ * @headPointer: Pointer to the headPointer of the linked list
  * @str: String to be stored in the new node
  * @num: Number to be stored in the new node
  * Return: Pointer to the newly added node or NULL on failure
  */
-string_list_type *_prepend_node(string_list_type **head, char *str, int num)
+string_list_type *_prepend_node(string_list_type **headPointer,
+								char *str, int num)
 {
-	string_list_type *new_head;
+	string_list_type *new_headPointer;
 
-	if (!head)
+	if (!headPointer)
 		return (NULL);
-	new_head = _create_node();
-	if (new_head)
+	new_headPointer = _create_node();
+	if (new_headPointer)
 	{
-		new_head->_num = num;
+		new_headPointer->_num = num;
 		if (str)
-			new_head->_string = _strdupl(str);
+			new_headPointer->_string = _strdupl(str);
 
-		/*point the new_node to head */
-		new_head->next = *head;
+		/*point the new_node to headPointer */
+		new_headPointer->next = *headPointer;
 
-		/* point head to new_node */
-		*head = new_head;
-		return (new_head);
+		/* point headPointer to new_node */
+		*headPointer = new_headPointer;
+		return (new_headPointer);
 	}
 	return (NULL);
 }
 /**
  * _append_node - Add a node to the end of a linked list
- * @head: Pointer to the head of the linked list
+ * @headPointer: Pointer to the headPointer of the linked list
  * @str: String to be stored in the new node
  * @num: Number to be stored in the new node
  * Return: Pointer to the newly added node or NULL on failure
  */
-string_list_type *_append_node(string_list_type **head, char *str, int num)
+string_list_type *_append_node(string_list_type **headPointer,
+							   char *str, int num)
 {
 	string_list_type *end_node, *last_node;
 
-	if (!head)
+	if (!headPointer)
 		return (NULL);
 	last_node = _create_node();
 	if (last_node)
@@ -67,57 +69,57 @@ string_list_type *_append_node(string_list_type **head, char *str, int num)
 		if (str)
 			last_node->_string = _strdupl(str);
 		last_node->next = NULL;
-		if (*head == NULL)
-		{	/* if the link list is empty , make last node as head*/
-			*head = last_node;
+		if (*headPointer == NULL)
+		{ /* if the link list is empty , make last node as headPointer*/
+			*headPointer = last_node;
 			return (last_node);
 		}
-		end_node = *head;
+		end_node = *headPointer;
 		while (end_node->next != NULL)
 			end_node = end_node->next; /* find the last node attached */
-		end_node->next = last_node; 	/* point the end node to the last node */
+		end_node->next = last_node;	   /* point the end node to the last node */
 		return (last_node);
 	}
 	return (NULL);
 }
 
 /**
- * _remove_node_at - Remove a node at a specific position in a linked list
- * @head: Pointer to the head of the linked list
- * @position: Position of the node to be removed
+ * _remove_node_at - Remove a node at a specific pos in a linked list
+ * @headPointer: Pointer to the headPointer of the linked list
+ * @pos: index of the node to be removed
  * Return: TRUE if the node is successfully removed, FALSE otherwise
  */
-int _remove_node_at(string_list_type **head, unsigned int position)
+int _remove_node_at(string_list_type **headPointer, unsigned int pos)
 {
-	string_list_type *temp_node, *del_node, *prev_node;
+	string_list_type *tempNode, *del_node, *prev_node;
 	unsigned int index = 0;
 
-	if (!head || !(*head))
+	if (!headPointer || !(*headPointer))
 		return (_FALSE);
-	temp_node = *head;
-	if (position == 0)
+	tempNode = *headPointer;
+	if (pos == 0)
 	{
-		*head = (*head)->next; /*if position is head advance the head */
-		_free_strlistnode(temp_node); /* temp node is the removed node(head) */
+		*headPointer = (*headPointer)->next;
+		_free_strlistnode(tempNode);
 		return (_TRUE);
 	}
-	while (temp_node->next != NULL)
+	while (tempNode->next != NULL)
 	{
-		if (index == position)
-		{ /*while not second to last */
-			del_node = temp_node->next;
-			temp_node->next = temp_node->next->next;
+		if (index == pos)
+		{
+			del_node = tempNode->next;
+			tempNode->next = tempNode->next->next;
 			_free_strlistnode(del_node);
 			return (_TRUE);
 		}
-		prev_node = temp_node; /*record the current node and advance*/
-		temp_node = temp_node->next;
+		prev_node = tempNode;
+		tempNode = tempNode->next;
 		index++;
 	}
-	if (index == position) /* temp_node is the is last node */
-	{	/*if position is last node*/
-		prev_node->next = NULL; /* terminate link to last node*/
-		_free_strlistnode(temp_node);
+	if (index == pos)
+	{
+		prev_node->next = NULL;
+		_free_strlistnode(tempNode);
 		return (_TRUE);
 	}
 	return (_FALSE);
