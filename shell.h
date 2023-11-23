@@ -135,7 +135,6 @@ void _run_cmd(shell_type *obj);
 void _next_linkedstream(shell_type *obj, char *buffer,
 						size_t length, size_t index, size_t *position);
 int _is_interactive(shell_type *obj);
-void _run_cmd(shell_type *obj);
 
 /* SHELL FUNCTIONS */
 int _start_process(shell_type *obj, char **av);
