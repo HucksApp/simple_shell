@@ -14,7 +14,6 @@ int _args_errors(shell_type *obj, char *cmd_type)
 		{
 			errno = E2BIG;
 			perror((obj->_file_name) ? (obj->_file_name) : (obj->_tokens[1]));
-			/*_write_string("Incorrect number of arguements\n", STDERR_FILENO);*/
 			return (_TRUE);
 		}
 		return (_FALSE);
@@ -26,7 +25,6 @@ int _args_errors(shell_type *obj, char *cmd_type)
 
 			errno = E2BIG;
 			perror((obj->_file_name) ? (obj->_file_name) : (obj->_tokens[1]));
-			/*_write_string("Too few arguements.\n", STDERR_FILENO);*/
 			return (_TRUE);
 		}
 	}
