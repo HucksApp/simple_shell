@@ -1,6 +1,6 @@
 #include "shell.h"
 /**
- * _create_shell_obj - Initializes the shell_type object with default values.
+ * _init_shell_obj - Initializes the shell_type object with default values.
  * @obj: Pointer to the shell_type object.
  */
 
