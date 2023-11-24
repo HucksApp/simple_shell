@@ -4,7 +4,7 @@
  * @obj: Pointer to the shell_type object.
  */
 
-void _create_shell_obj(shell_type *obj)
+void _init_shell_obj(shell_type *obj)
 {
 	obj->_tokens = NULL;
 	obj->_env = NULL;
@@ -36,7 +36,7 @@ int main(int argc, char **argv)
 	shell_type obj[] = {0};
 	int file_descriptor = 2;
 
-	_create_shell_obj(obj);
+	_init_shell_obj(obj);
 	if (argc == 2)
 	{
 		file_descriptor = open(argv[1], O_RDONLY);
