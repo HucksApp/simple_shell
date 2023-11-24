@@ -56,7 +56,9 @@ char *_get_path(UNUSED shell_type * obj, char *paths, char *cmd_name)
 	char path_delim = ':';
 
 	if (!paths)
+	{
 		return (NULL);
+	}
 	is_valid = ((str_len(cmd_name) > 2) && _match_str_path(cmd_name, "./"))
 				   ? (_TRUE)
 				   : (_FALSE);
@@ -72,13 +74,15 @@ char *_get_path(UNUSED shell_type * obj, char *paths, char *cmd_name)
 			path = _copy_path(paths, index, iter);
 			if (!*path)
 			{
-				handleEmptyPath(obj);
+		
 				/* path is empty  add new path */
 				path = strdup(cmd_name);
 			}
 			else
 			{
-				addPathToPath(path, cmd_name);
+				/* add new path to path */
+				_strconcat(path, "/");
+				_strconcat(path, cmd_name);
 			}
 			if (_is_eXe(path))
 				return (path);

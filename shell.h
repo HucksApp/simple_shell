@@ -205,12 +205,12 @@ size_t _print_node(string_list_type *head);
 /* PRINT UTILITIES */
 int _count_digits(int num);
 
-/*GETLINE*/
+/* GETLINE */
 int _getline(shell_type *obj, char **ptr, size_t *length);
 ssize_t _getinput(shell_type *obj);
 ssize_t _update_buffer(shell_type *obj, char **buffer, size_t *length);
 
-/*MEMORY UTILITIES*/
+/* MEMORY UTILITIES */
 int is_dynamic_mem(char *str);
 void _free_strlistnode(string_list_type *node);
 void _free_strlistnode2(string_list_type *node);
@@ -221,10 +221,10 @@ int _free_str_in_str(char **str);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 void _free_node_lists(string_list_type **head_ptr);
 
-/*HISTORY UTILITIES*/
+/* HISTORY UTILITIES */
 void _history_size_monitor(shell_type *obj);
 
-/*HISTORY FUNCTIONS*/
+/* HISTORY FUNCTIONS */
 int _build_history(shell_type *obj, char *buffer, int line_count);
 char *_get_history_file(shell_type *obj);
 int _history_indexing(shell_type *obj);
@@ -236,7 +236,7 @@ char *_copy_path(char *path, int start, int stop);
 int _is_eXe(char *path);
 char *_get_path(UNUSED shell_type *obj, char *paths, char *cmd_name);
 
-/*refactor functions*/
+/* refactor functions */
 void printCdErrorMessage(shell_type *obj);
 void handleEmptyPath(shell_type *obj);
 void addPathToPath(char *path, char *cmdName);

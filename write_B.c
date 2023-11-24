@@ -6,7 +6,7 @@
  * @file_descriptor: UNUSED parameter, not used in the function
  *
  * This function writes the given character to the standard output
- * stream (file descriptor 1).
+ * stream (file descriptor 1)
  * It uses a static buffer to accumulate characters before flushing
  * them to stdout.
  *
