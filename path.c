@@ -73,11 +73,8 @@ char *_get_path(UNUSED shell_type * obj, char *paths, char *cmd_name)
 		{
 			path = _copy_path(paths, index, iter);
 			if (!*path)
-			{
-		
 				/* path is empty  add new path */
 				path = strdup(cmd_name);
-			}
 			else
 			{
 				/* add new path to path */
