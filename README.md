@@ -42,6 +42,8 @@ To run this shell, clone this repository in your terminal.
 
 ```
 $ ./simple_shell
+
+$
 ```
 
 ### builtin command🛠
