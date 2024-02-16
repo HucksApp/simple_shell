@@ -23,7 +23,7 @@ This simple shell is a Shell interface written in C programming language that gi
 * This shell does NOT support pipes |, shell logical operators as && or ||, neither commands separator ;.
 * it support command history caching to ***.simple_shell_history*** file in user home directory.
 
-## cloning, Compiling
+## Cloning and Compiling
 To run this shell, clone this repository in your terminal.
 * HTTPS 🌐
   ```
