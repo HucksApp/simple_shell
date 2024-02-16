@@ -29,11 +29,11 @@ To run this shell, clone this repository in your terminal.
   ```
   $ git clone https://github.com/HucksApp/simple_shell.git
   ```
-  * SSH 🐚
+* SSH 🐚
   ```
   $ git clone git@github.com:HucksApp/simple_shell.git
   ```
-  * To compile
+* To compile
  ```
   $ gcc -Wall -Wextra -Werror -pedantic -Wno-format -g *.c -o simple_shell
 ```
