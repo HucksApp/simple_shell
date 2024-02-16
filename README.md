@@ -82,7 +82,7 @@ help:   help [BUILTIN_NAME]
 $
 ```
 
-### Author 🖋
+### Authors 🖋
 
 Abiodun Aremu ~ HucksApp@gmail.com :
 
