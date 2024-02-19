@@ -1,5 +1,7 @@
 # simple shell 🐚 🐌
 
+![simple shell](https://github.com/HucksApp/simple_shell/assets/58187974/7c75e9f7-ed96-4775-a907-e39a4df76bf5)
+
 ## Description 
 
 0x16. C - Simple Shell 🐌
