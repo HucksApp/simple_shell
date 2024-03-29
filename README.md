@@ -48,6 +48,27 @@ $ ./simple_shell
 $
 ```
 
+### Files 📄
+
+File                            |          Description
+--------------------------------|---------------------
+utilities_shell<A - D>.c        | Shell Utility functions
+utilities_string<A - D>.c       | String manipulation utility functions
+utilities_memory<A - B>.c       | Memory management utility functions
+utilities_node<A - B>.c         | Data nodes utility 
+write_<A - B>.c                 | Custom functions for writing to standard Error and standard output
+builtins<A -B>.c                | Shell builting commands functions defination
+[utilities_envA.c](./utilities_envA.c) | Enviromental variables manipulation functions
+[shprocess.c](./shprocess.c)        | simpleshell process function defination
+[read.c](./read.c)                  | file read functions for shell utility
+[getline.c](./getline.c)            | custom commandline parser
+[history.c](./history.c)            | simple shell history file functions
+[shell.c](./shell.c)                | main function 
+[aliasA.c](./aliasA.c)              | shell command aliasing managament functions
+[path.c](./path.c)                  | shell path management functions
+
+
+
 ### builtin command🛠
 This program executes the most common shell commands but the directly builtins are
 
