@@ -25,6 +25,7 @@ This simple shell is a Shell interface written in C programming language that gi
 * This shell does NOT support pipes |, shell logical operators as && or ||, neither commands separator ;.
 * it support command history caching to ***.simple_shell_history*** file in user home directory.
 
+------------------------------------
 ## Cloning and Compiling
 To run this shell, clone this repository in your terminal.
 * HTTPS 🌐
@@ -47,7 +48,7 @@ $ ./simple_shell
 
 $
 ```
-
+------------------------------------------------
 ### Files 📄
 
 File                            |          Description
@@ -68,7 +69,7 @@ builtins<A -B>.c                | Shell builting commands functions defination
 [path.c](./path.c)                  | shell path management functions
 
 
-
+---------------------------------------------------------
 ### builtin command🛠
 This program executes the most common shell commands but the directly builtins are
 
