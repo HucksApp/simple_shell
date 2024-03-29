@@ -62,7 +62,7 @@ builtins<A -B>.c                | Shell builting commands functions defination
 [utilities_envA.c](./utilities_envA.c) | Enviromental variables manipulation functions
 [shprocess.c](./shprocess.c)        | simpleshell process function defination
 [read.c](./read.c)                  | file read functions for shell utility
-[__getline.c](./__getline.c)            | custom commandline parser
+[_getline.c](./_getline.c)            | custom commandline parser
 [history.c](./history.c)            | simple shell history file functions
 [shell.c](./shell.c)                | main function 
 [aliasA.c](./aliasA.c)              | shell command aliasing managament functions
